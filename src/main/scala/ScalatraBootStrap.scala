@@ -1,5 +1,7 @@
+import java.util.concurrent.Executors
 import javax.servlet.ServletContext
 
+import org.mbari.m3.panoptes.api.ImageV1Api
 import org.scalatra.LifeCycle
 import org.slf4j.LoggerFactory
 
@@ -17,13 +19,15 @@ class ScalatraBootstrap extends LifeCycle {
 
   override def init(context: ServletContext): Unit = {
 
-    println("STARTING UP NOW")
+    log.info("STARTING UP NOW")
 
     implicit val executionContext = ExecutionContext.global
+    //implicit val executionContext = ExecutionContext.fromExecutor(Executors.newFixedThreadPool(Runtime.getRuntime.availableProcessors()))
 
     //val helloApi = new api.HelloApi
+    val imageV1Api = new ImageV1Api()
 
-    //context.mount(helloApi, "/v1/hello")
+    context.mount(imageV1Api, "/v1/images")
 
   }
 

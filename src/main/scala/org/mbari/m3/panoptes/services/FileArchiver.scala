@@ -4,9 +4,13 @@ import java.net.URI
 
 import com.typesafe.config.ConfigFactory
 
+import scala.concurrent.{ExecutionContext, Future}
 import scala.tools.nsc.interpreter.InputStream
 
 /**
+  * Archives files to some data store. Provides 2 methods.
+  * One to save a file, another to construct a URI to a file
+  *
   * @author Brian Schlining
   * @since 2017-08-29T14:37:00
   */
@@ -46,9 +50,16 @@ object FileArchiver {
 
   private[this] val config = ConfigFactory.load()
 
-  def service: FileArchiver = {
+  val Instance: FileArchiver = {
     val serviceName = config.getString("panoptes.file.archiver")
     val clazz = Class.forName(serviceName)
     clazz.newInstance().asInstanceOf[FileArchiver]
   }
+
+  def save(inputStream: InputStream,
+           cameraId: String,
+           deploymentId: String,
+           name: String)(implicit ec: ExecutionContext): Future[Option[URI]] =
+    Future(Instance.save(inputStream, cameraId, deploymentId, name))
+
 }

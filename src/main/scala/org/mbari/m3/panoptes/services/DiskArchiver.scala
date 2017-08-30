@@ -18,4 +18,6 @@ trait DiskArchiver extends FileArchiver {
     */
   def filepath(cameraId: String, deploymentId: String, name: String): Path
 
+  def files(cameraId: String, deploymentId: String): List[Path]
+
 }

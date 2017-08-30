@@ -8,8 +8,8 @@ import org.json4s.Formats
 import org.mbari.m3.panoptes.converters.json4s
 import org.scalatra.{ContentEncodingSupport, FutureSupport, ScalatraServlet}
 import org.scalatra.json.JacksonJsonSupport
+import org.scalatra.json._
 import org.scalatra.servlet.FileUploadSupport
-import org.scalatra.swagger.SwaggerSupport
 import org.scalatra.util.conversion.TypeConverter
 import org.slf4j.{Logger, LoggerFactory}
 
@@ -28,7 +28,7 @@ abstract class ApiStack extends ScalatraServlet
 
   protected[this] val log: Logger = LoggerFactory.getLogger(getClass)
 
-  protected[this] implicit val jsonFormats: Formats = json4s.CustomFormats
+  protected[this] implicit lazy val jsonFormats: Formats = json4s.CustomFormats
 
   protected implicit val stringToUUID = new TypeConverter[String, UUID] {
     override def apply(s: String): Option[UUID] = Try(UUID.fromString(s)).toOption
@@ -48,6 +48,10 @@ abstract class ApiStack extends ScalatraServlet
 
   protected implicit val stringToURL = new TypeConverter[String, URL] {
     override def apply(s: String): Option[URL] = Try(new URL(s)).toOption
+  }
+
+  before() {
+    contentType = formats("json")
   }
 
 }

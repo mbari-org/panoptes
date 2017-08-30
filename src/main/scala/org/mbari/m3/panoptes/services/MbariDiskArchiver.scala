@@ -1,9 +1,6 @@
 package org.mbari.m3.panoptes.services
 
-import java.io.OutputStream
 import java.net.{URI, URL}
-import java.nio.ByteBuffer
-import java.nio.channels.Channels
 import java.nio.file.{Files, Path, Paths}
 
 import com.typesafe.config.{Config, ConfigFactory}
@@ -18,7 +15,7 @@ import scala.util.control.NonFatal
   * @author Brian Schlining
   * @since 2017-08-29T11:45:00
   */
-class MbariFileArchiver extends FileArchiver {
+class MbariFileArchiver extends DiskArchiver {
 
   private[this] val log = LoggerFactory.getLogger(getClass)
   private[this] val config = ConfigFactory.load()
@@ -43,10 +40,9 @@ class MbariFileArchiver extends FileArchiver {
            deploymentId: String,
            name: String): Option[URI] = {
 
-    val parent = Paths.get(archiveRoot.toString, relativeFilePath(cameraId, deploymentId))
-    val path = Paths.get(parent.toString, "$name")
+    val path = filepath(cameraId, deploymentId, name)
+    val parent = path.getParent
 
-    // TODO
     val ok = if (Files.exists(parent)) true
     else {
       Try(Files.createDirectory(parent)) match {
@@ -77,5 +73,11 @@ class MbariFileArchiver extends FileArchiver {
   override def uri(cameraId: String, deploymentId: String, name: String) = {
     val uriPath = s"$archiveUrl/${relativeFilePath(cameraId, deploymentId)}/$name"
     new URL(uriPath).toURI
+  }
+
+
+  override def filepath(cameraId: String, deploymentId: String, name: String): Path = {
+    val parent = Paths.get(archiveRoot.toString, relativeFilePath(cameraId, deploymentId))
+    Paths.get(parent.toString, "$name")
   }
 }

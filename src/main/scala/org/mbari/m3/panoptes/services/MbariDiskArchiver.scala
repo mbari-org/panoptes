@@ -22,8 +22,11 @@ class MbariDiskArchiver extends DiskArchiver {
   private[this] val config = ConfigFactory.load()
   private[this] val archiveRoot: Path =
     Paths.get(config.getString("panoptes.mbari.image.archive.root"))
-  private[this] val archiveUrl: String =
-    config.getString("panoptes.mbari.image.archive.url")
+  private[this] val archiveUrl: String = {
+    val url = config.getString("panoptes.mbari.image.archive.url")
+    if (!url.endsWith("/")) url + "/" else url
+  }
+
 
   private def relativeFilePath(cameraId: String, deploymentId: String): String =
     s"$cameraId/images/$deploymentId"
@@ -71,7 +74,7 @@ class MbariDiskArchiver extends DiskArchiver {
   }
 
   override def uri(cameraId: String, deploymentId: String, name: String) = {
-    val uriPath = s"$archiveUrl/${relativeFilePath(cameraId, deploymentId)}/$name"
+    val uriPath = s"$archiveUrl${relativeFilePath(cameraId, deploymentId)}/$name"
     new URL(uriPath).toURI
   }
 

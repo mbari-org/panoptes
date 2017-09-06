@@ -14,12 +14,12 @@ import scala.util.control.NonFatal
   * @author Brian Schlining
   * @since 2017-08-29T11:44:00
   */
-class ImageV1Api(implicit val executor: ExecutionContext) extends ApiStack {
+class ImageV1Api(maxFileSizeGB: Int = 3)(implicit val executor: ExecutionContext) extends ApiStack {
 
   val fileArchiver = FileArchiver.Instance
 
-  // Max upload size is 6MB
-  configureMultipartHandling(MultipartConfig(maxFileSize = Some(6*1024*1024)))
+  // Configure Max upload size
+  configureMultipartHandling(MultipartConfig(maxFileSize = Some(maxFileSizeGB*1024*1024)))
 
   post("/:camera_id/:deployment_id/:name") {
     validateRequest()

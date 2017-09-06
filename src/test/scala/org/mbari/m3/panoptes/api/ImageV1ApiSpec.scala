@@ -15,7 +15,7 @@ class ImageV1ApiSpec extends ApiTestStack {
 
   addServlet(api, "/v1/images")
 
-  "ImageV1Api" should "POST" iin {
+  "ImageV1Api" should "POST" in {
     post("v1/images/Ventana/9999/01_02_03_04.png") {
 
     }

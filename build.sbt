@@ -1,6 +1,7 @@
 lazy val auth0Version = "3.1.0"
 lazy val codecVersion = "1.10"
 lazy val configVersion = "1.3.1"
+lazy val guavaVersion = "19.0"
 lazy val jettyVersion = "9.4.6.v20170531"
 lazy val json4sJacksonVersion = "3.5.1"
 lazy val jtaVersion = "1.1"
@@ -35,6 +36,7 @@ lazy val dependencySettings = Seq(
     Seq(
       "ch.qos.logback" % "logback-classic" % logbackVersion,
       "ch.qos.logback" % "logback-core" % logbackVersion,
+      "com.google.guava" % "guava" % guavaVersion,
       "com.typesafe" % "config" % configVersion,
       "junit" % "junit" % junitVersion % "test",
       "org.scalatest" %% "scalatest" % scalatestVersion % "test",

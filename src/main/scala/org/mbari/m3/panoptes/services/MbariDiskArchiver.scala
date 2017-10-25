@@ -3,7 +3,6 @@ package org.mbari.m3.panoptes.services
 import java.net.{URI, URL}
 import java.nio.file.{DirectoryStream, Files, Path, Paths}
 
-import com.google.common.net.UrlEscapers
 import com.typesafe.config.{Config, ConfigFactory}
 import org.mbari.m3.panoptes.util.IOUtilities
 import org.slf4j.LoggerFactory
@@ -76,7 +75,7 @@ class MbariDiskArchiver extends DiskArchiver {
 
   override def uri(cameraId: String, deploymentId: String, name: String) = {
     val uriPath = s"$archiveUrl${relativeFilePath(cameraId, deploymentId)}/$name"
-    val uriEscaped = UrlEscapers.urlPathSegmentEscaper().escape(uriPath)
+    val uriEscaped = uriPath.replace(" ", "%20")
     new URL(uriEscaped).toURI
   }
 

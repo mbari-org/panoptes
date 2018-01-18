@@ -2,6 +2,8 @@
 
 # panoptes
 
+[![Build Status](https://travis-ci.org/mbari-media-management/vampire-squid.svg?branch=master)](https://travis-ci.org/mbari-media-management/vampire-squid)
+
 This service supports image uploads and archiving. 
 
 ![sequence diagram](src/site/resources/images/Overview.png)

@@ -13,32 +13,31 @@ import scala.util.control.NonFatal
 import scala.collection.JavaConverters._
 
 /**
-  * @author Brian Schlining
-  * @since 2017-08-29T11:45:00
-  */
+ * @author Brian Schlining
+ * @since 2017-08-29T11:45:00
+ */
 class MbariDiskArchiver extends DiskArchiver {
 
   private[this] val log = LoggerFactory.getLogger(getClass)
   private[this] val config = ConfigFactory.load()
-  private[this] val archiveRoot: Path =
+  protected[this] val archiveRoot: Path =
     Paths.get(config.getString("panoptes.mbari.image.archive.root"))
   private[this] val archiveUrl: String = {
     val url = config.getString("panoptes.mbari.image.archive.url")
     if (!url.endsWith("/")) url + "/" else url
   }
 
-
-  private def relativeFilePath(cameraId: String, deploymentId: String): String =
+  protected def relativeFilePath(cameraId: String, deploymentId: String): String =
     s"$cameraId/images/$deploymentId"
 
   /**
-    * Save a file to a data store
-    * @param inputStream The input stream to the image file to be saved
-    * @param cameraId The camera id (e.g. Ventana, i2Map, Doc Ricketts
-    * @param deploymentId The deployment id
-    * @param name
-    * @return
-    */
+   * Save a file to a data store
+   * @param inputStream The input stream to the image file to be saved
+   * @param cameraId The camera id (e.g. Ventana, i2Map, Doc Ricketts
+   * @param deploymentId The deployment id
+   * @param name
+   * @return
+   */
   def save(inputStream: InputStream,
            cameraId: String,
            deploymentId: String,
@@ -47,15 +46,16 @@ class MbariDiskArchiver extends DiskArchiver {
     val path = filepath(cameraId, deploymentId, name)
     val parent = path.getParent
 
-    val ok = if (Files.exists(parent)) true
-    else {
-      Try(Files.createDirectories(parent)) match {
-        case Success(v) => true
-        case Failure(e) =>
-          log.error(s"Failed to create directory: $parent", e)
-          false
+    val ok =
+      if (Files.exists(parent)) true
+      else {
+        Try(Files.createDirectories(parent)) match {
+          case Success(v) => true
+          case Failure(e) =>
+            log.error(s"Failed to create directory: $parent", e)
+            false
+        }
       }
-    }
 
     if (ok) {
       try {
@@ -63,14 +63,12 @@ class MbariDiskArchiver extends DiskArchiver {
         IOUtilities.copy(inputStream, outputStream)
         outputStream.close()
         Some(uri(cameraId, deploymentId, name))
-      }
-      catch {
+      } catch {
         case NonFatal(e) =>
           log.error(s"Failed to write to $path", e)
           None
       }
-    }
-    else None
+    } else None
   }
 
   override def uri(cameraId: String, deploymentId: String, name: String) = {
@@ -78,7 +76,6 @@ class MbariDiskArchiver extends DiskArchiver {
     val uriEscaped = uriPath.replace(" ", "%20")
     new URL(uriEscaped).toURI
   }
-
 
   override def filepath(cameraId: String, deploymentId: String, name: String): Path = {
     val parent = Paths.get(archiveRoot.toString, relativeFilePath(cameraId, deploymentId))

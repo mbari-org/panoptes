@@ -13,11 +13,10 @@ import scala.util.control.NonFatal
  * @since 2017-03-01T14:07:00
  */
 case object InstantSerializer
-  extends CustomSerializer[Instant](
-    format =>
+    extends CustomSerializer[Instant](format =>
       ({
         case JString(s) => InstantSerializerSupport.parse(s).getOrElse(null)
-        case JNull => null
+        case JNull      => null
       }, {
         case i: Instant =>
           JString(InstantSerializerSupport.format(i))

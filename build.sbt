@@ -39,7 +39,8 @@ lazy val dependencySettings = Seq(
       "junit" % "junit" % junitVersion % "test",
       "org.scalatest" %% "scalatest" % scalatestVersion % "test",
       "org.slf4j" % "log4j-over-slf4j" % slf4jVersion,
-      "org.slf4j" % "slf4j-api" % slf4jVersion)
+      "org.slf4j" % "slf4j-api" % slf4jVersion
+    )
   },
   resolvers ++= Seq(
     Resolver.mavenLocal,
@@ -61,7 +62,8 @@ lazy val optionSettings = Seq(
     "-Xlint",
     "-Yno-adapted-args",
     "-Ywarn-value-discard",
-    "-Xfuture"),
+    "-Xfuture"
+  ),
   javacOptions ++= Seq("-target", "1.8", "-source", "1.8"),
   updateOptions := updateOptions.value.withCachedResolution(true)
 )
@@ -71,7 +73,7 @@ addCommandAlias("cleanall", ";clean;clean-files")
 
 // --- Modules
 lazy val appSettings = buildSettings ++ consoleSettings ++ dependencySettings ++
-    optionSettings
+  optionSettings
 
 val apps = Seq("jetty-main")
 
@@ -83,26 +85,28 @@ lazy val `panoptes` = (project in file("."))
     version := "1.0-SNAPSHOT",
     fork := true,
     libraryDependencies ++= Seq(
-        "com.auth0" % "java-jwt" % auth0Version,
-        "commons-codec" % "commons-codec" % codecVersion,
-        "io.reactivex.rxjava2" % "rxjava" % rxjavaVersion,
-        "javax.servlet" % "javax.servlet-api" % servletVersion,
-        "javax.transaction" % "jta" % jtaVersion,
-        "org.json4s" %% "json4s-jackson" % json4sJacksonVersion,
-        "org.eclipse.jetty" % "jetty-server" % jettyVersion % "compile;test",
-        "org.eclipse.jetty" % "jetty-servlets" % jettyVersion % "compile;test",
-        "org.eclipse.jetty" % "jetty-webapp" % jettyVersion % "compile;test",
-        "org.scalatest" %% "scalatest" % scalatestVersion % "test",
-        "org.scalatra" %% "scalatra" % scalatraVersion,
-        "org.scalatra" %% "scalatra-json" % scalatraVersion,
-        "org.scalatra" %% "scalatra-scalate" % scalatraVersion,
-        "org.scalatra" %% "scalatra-slf4j" % scalatraVersion,
-        "org.scalatra" %% "scalatra-swagger" % scalatraVersion,
-        "org.scalatra" %% "scalatra-swagger-ext" % scalatraVersion,
-        "org.scalatra" %% "scalatra-scalatest" % scalatraVersion)
-          .map(_.excludeAll(ExclusionRule("org.slf4j", "slf4j-jdk14"),
-            ExclusionRule("org.slf4j", "slf4j-log4j12"),
-            ExclusionRule("javax.servlet", "servlet-api"))),
+      "com.auth0" % "java-jwt" % auth0Version,
+      "commons-codec" % "commons-codec" % codecVersion,
+      "io.reactivex.rxjava2" % "rxjava" % rxjavaVersion,
+      "javax.servlet" % "javax.servlet-api" % servletVersion,
+      "javax.transaction" % "jta" % jtaVersion,
+      "org.json4s" %% "json4s-jackson" % json4sJacksonVersion,
+      "org.eclipse.jetty" % "jetty-server" % jettyVersion % "compile;test",
+      "org.eclipse.jetty" % "jetty-servlets" % jettyVersion % "compile;test",
+      "org.eclipse.jetty" % "jetty-webapp" % jettyVersion % "compile;test",
+      "org.scalatest" %% "scalatest" % scalatestVersion % "test",
+      "org.scalatra" %% "scalatra" % scalatraVersion,
+      "org.scalatra" %% "scalatra-json" % scalatraVersion,
+      "org.scalatra" %% "scalatra-scalate" % scalatraVersion,
+      "org.scalatra" %% "scalatra-slf4j" % scalatraVersion,
+      "org.scalatra" %% "scalatra-swagger" % scalatraVersion,
+      "org.scalatra" %% "scalatra-swagger-ext" % scalatraVersion,
+      "org.scalatra" %% "scalatra-scalatest" % scalatraVersion
+    ).map(
+        _.excludeAll(
+          ExclusionRule("org.slf4j", "slf4j-jdk14"),
+          ExclusionRule("org.slf4j", "slf4j-log4j12"),
+          ExclusionRule("javax.servlet", "servlet-api"))),
     mainClass in assembly := Some("JettyMain")
   )
 //  .settings( // config sbt-pack
@@ -124,5 +128,3 @@ packJvmOpts := Map("jetty-main" -> Seq("-Duser.timezone=UTC", "-Xmx4g"))
 packDuplicateJarStrategy := "latest"
 
 packJarNameConvention := "original"
-
-

@@ -5,19 +5,18 @@ import org.mbari.m3.panoptes.auth.AuthorizationService
 import org.scalatra.{ScalatraBase, Unauthorized}
 
 /**
-  * @author Brian Schlining
-  * @since 2017-01-18T16:27:00
-  */
+ * @author Brian Schlining
+ * @since 2017-01-18T16:27:00
+ */
 trait ApiAuthenticationSupport { self: ScalatraBase =>
 
   val authorizationService: AuthorizationService = ApiAuthenticationSupport.authorizationService
 
-  protected def validateRequest(): Unit = {
+  protected def validateRequest(): Unit =
     //println("VALIDATING: " + request)
     if (!authorizationService.validateAuthorization(request)) {
       halt(Unauthorized("The request did not include valid authorization credentials"))
     }
-  }
 
 }
 

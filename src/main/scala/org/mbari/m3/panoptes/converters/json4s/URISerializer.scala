@@ -12,12 +12,10 @@ import scala.util.Try
  * @since 2017-03-01T15:12:00
  */
 case object URISerializer
-  extends CustomSerializer[URI](
-    format =>
-      (
-        {
-          case JString(s) => Try(new URI(s)).getOrElse(null)
-          case JNull => null
-        }, {
-          case x: URL => JString(x.toString)
-        }))
+    extends CustomSerializer[URI](format =>
+      ({
+        case JString(s) => Try(new URI(s)).getOrElse(null)
+        case JNull      => null
+      }, {
+        case x: URL => JString(x.toString)
+      }))

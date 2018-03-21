@@ -16,15 +16,16 @@ import org.slf4j.{Logger, LoggerFactory}
 import scala.util.Try
 
 /**
-  * @author Brian Schlining
-  * @since 2017-08-29T11:40:00
-  */
-abstract class ApiStack extends ScalatraServlet
-  with ApiAuthenticationSupport
-  with JacksonJsonSupport
-  with ContentEncodingSupport
-  with FutureSupport
-  with FileUploadSupport {
+ * @author Brian Schlining
+ * @since 2017-08-29T11:40:00
+ */
+abstract class ApiStack
+    extends ScalatraServlet
+    with ApiAuthenticationSupport
+    with JacksonJsonSupport
+    with ContentEncodingSupport
+    with FutureSupport
+    with FileUploadSupport {
 
   protected[this] val log: Logger = LoggerFactory.getLogger(getClass)
 

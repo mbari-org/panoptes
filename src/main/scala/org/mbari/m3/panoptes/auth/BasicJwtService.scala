@@ -15,25 +15,25 @@ import org.mbari.m3.panoptes.converters.json4s
 import scala.util.control.NonFatal
 
 /**
-  * To use this authentication. The client and server should both have a shared
-  * secret (aka client secret). The client sends this to the server in a
-  * authorization header. If the secret is correct, the server will send back
-  * a JWT token that can be used to validate subsequent requests.
-  *
-  * {{{
-  *   Client                                                                Server
-  *     |-------> POST /auth: Authorization: APIKEY <client_secret>      ----->|
-  *     |                                                                      |
-  *     |<------- {'access_token': <token>, 'token_type': 'Bearer'}     <------|
-  *     |                                                                      |
-  *     |                                                                      |
-  *     |-------> POST /somemethod: Authorization: Bearer <token>       ------>|
-  *     |                                                                      |
-  *     |<------- 200                                                   <------|
-  * }}}
-  * @author Brian Schlining
-  * @since 2017-01-18T16:42:00
-  */
+ * To use this authentication. The client and server should both have a shared
+ * secret (aka client secret). The client sends this to the server in a
+ * authorization header. If the secret is correct, the server will send back
+ * a JWT token that can be used to validate subsequent requests.
+ *
+ * {{{
+ *   Client                                                                Server
+ *     |-------> POST /auth: Authorization: APIKEY <client_secret>      ----->|
+ *     |                                                                      |
+ *     |<------- {'access_token': <token>, 'token_type': 'Bearer'}     <------|
+ *     |                                                                      |
+ *     |                                                                      |
+ *     |-------> POST /somemethod: Authorization: Bearer <token>       ------>|
+ *     |                                                                      |
+ *     |<------- 200                                                   <------|
+ * }}}
+ * @author Brian Schlining
+ * @since 2017-01-18T16:42:00
+ */
 class BasicJwtService extends AuthorizationService {
 
   private[this] val config = ConfigFactory.load()
@@ -42,16 +42,16 @@ class BasicJwtService extends AuthorizationService {
   private[this] val signingSecret = config.getString("basicjwt.signing.secret")
   private[this] val algorithm = Algorithm.HMAC512(signingSecret)
 
-  private[this] val verifier = JWT.require(algorithm)
+  private[this] val verifier = JWT
+    .require(algorithm)
     .withIssuer(issuer)
     .build()
 
-  private def authorize(request: HttpServletRequest): Option[Authorization] = {
+  private def authorize(request: HttpServletRequest): Option[Authorization] =
     Option(request.getHeader("Authorization"))
       .map(parseAuthHeader)
-  }
 
-  private def isValid(auth: Option[Authorization]): Boolean = {
+  private def isValid(auth: Option[Authorization]): Boolean =
     //println("RUNNING JWT with auth = " + auth.getOrElse("NONE"))
     try {
       auth match {
@@ -65,7 +65,6 @@ class BasicJwtService extends AuthorizationService {
     } catch {
       case NonFatal(e) => false
     }
-  }
 
   private def parseAuthHeader(header: String): Authorization = {
     val parts = header.split("\\s")
@@ -74,7 +73,8 @@ class BasicJwtService extends AuthorizationService {
     Authorization(tokenType, accessToken)
   }
 
-  override def validateAuthorization(request: HttpServletRequest): Boolean = isValid(authorize(request))
+  override def validateAuthorization(request: HttpServletRequest): Boolean =
+    isValid(authorize(request))
 
   override def requestAuthorization(request: HttpServletRequest): Option[String] = {
     implicit val formats = json4s.CustomFormats
@@ -88,7 +88,8 @@ class BasicJwtService extends AuthorizationService {
         val iat = Date.from(now)
         val exp = Date.from(tomorrow)
 
-        JWT.create()
+        JWT
+          .create()
           .withIssuer(issuer)
           .withIssuedAt(iat)
           .withExpiresAt(exp)

@@ -16,19 +16,29 @@
 
 package org.mbari.m3.panoptes.converters.json4s
 
-import java.time.Duration
+import java.net.URL
+import java.util.UUID
 
 import org.json4s._
 
+import scala.util.Try
+import scala.util.control.NonFatal
+
 /**
  * @author Brian Schlining
- * @since 2017-03-01T14:57:00
+ * @since 2017-03-01T15:05:00
  */
-case object DurationSerializer
-    extends CustomSerializer[Duration](format =>
+case object UUIDSerializer
+    extends CustomSerializer[UUID](format =>
       ({
-        case JInt(s) => Duration.ofMillis(s.toLong)
-        case JNull   => null
+        case JString(s) =>
+          try {
+            UUID.fromString(s)
+          } catch {
+            case NonFatal(e) =>
+              throw MappingException(e.getMessage, new java.lang.IllegalArgumentException(e))
+          }
+        case JNull => null
       }, {
-        case x: Duration => JInt(x.toMillis)
+        case x: UUID => JString(x.toString)
       }))

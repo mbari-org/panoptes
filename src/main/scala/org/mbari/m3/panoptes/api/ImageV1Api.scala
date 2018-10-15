@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017 Monterey Bay Aquarium Research Institute
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.mbari.m3.panoptes.api
 
 import java.io.ByteArrayOutputStream
@@ -25,39 +41,39 @@ class ImageV1Api(maxFileSizeGB: Int = 3)(implicit val executor: ExecutionContext
     validateRequest()
     val cameraId = params
       .get("camera_id")
-      .getOrElse(halt(BadRequest(reason = "A camera_id path parameter is required")))
+      .getOrElse(halt(BadRequest(body = """{"error": "A camera_id path parameter is required"}""")))
     val deploymentId = params
       .get("deployment_id")
-      .getOrElse(halt(BadRequest(reason = "A deployment_id path parameter is required")))
+      .getOrElse(halt(BadRequest(body = """{"error": "A deployment_id path parameter is required"}""")))
     val name = params
       .get("name")
-      .getOrElse(halt(BadRequest(reason = "A name path parameter is required")))
+      .getOrElse(halt(BadRequest(body = """{"error": "A name path parameter is required"}""")))
     fileParams.get("file") match {
       case Some(file) =>
         val inputStream = file.getInputStream
         val f = FileArchiver
           .save(inputStream, cameraId, deploymentId, name)
           .map({
-            case None    => halt(BadRequest(reason = "Unable to complete your request"))
+            case None    => halt(BadRequest(body = """{"error": "Unable to complete your request"}"""))
             case Some(u) => ImageParams(u.toString, cameraId, deploymentId, name)
           })
         f.onComplete(_ => inputStream.close())
         f
       case None =>
-        halt(BadRequest(reason = "No file was attached"))
+        halt(BadRequest(body = """{"error": "No file was attached"}"""))
     }
   }
 
   get("/:camera_id/:deployment_id/:name") {
     val cameraId = params
       .get("camera_id")
-      .getOrElse(halt(BadRequest(reason = "A camera_id path parameter is required")))
+      .getOrElse(halt(BadRequest(body = """{"error": "A camera_id path parameter is required"}""")))
     val deploymentId = params
       .get("deployment_id")
-      .getOrElse(halt(BadRequest(reason = "A deployment_id path parameter is required")))
+      .getOrElse(halt(BadRequest(body = """{"error": "A deployment_id path parameter is required"}""")))
     val name = params
       .get("name")
-      .getOrElse(halt(BadRequest(reason = "A name path parameter is required")))
+      .getOrElse(halt(BadRequest(body = """{"error": "A name path parameter is required"}""")))
     val u = fileArchiver.uri(cameraId, deploymentId, name)
     ImageParams(u.toString, cameraId, deploymentId, name)
   }
@@ -79,13 +95,13 @@ class ImageV1Api(maxFileSizeGB: Int = 3)(implicit val executor: ExecutionContext
   get("/download/:camera_id/:deployment_id/:name") {
     val cameraId = params
       .get("camera_id")
-      .getOrElse(halt(BadRequest(reason = "A camera_id path parameter is required")))
+      .getOrElse(halt(BadRequest(body = """{"error": "A camera_id path parameter is required"}""")))
     val deploymentId = params
       .get("deployment_id")
-      .getOrElse(halt(BadRequest(reason = "A deployment_id path parameter is required")))
+      .getOrElse(halt(BadRequest(body = """{"error": "A deployment_id path parameter is required"}""")))
     val name = params
       .get("name")
-      .getOrElse(halt(BadRequest(reason = "A name path parameter is required")))
+      .getOrElse(halt(BadRequest(body = """{"error": "A name path parameter is required"}""")))
     fileArchiver match {
       case d: DiskArchiver => d.filepath(cameraId, deploymentId, name).toFile
       case f: FileArchiver =>
@@ -101,7 +117,7 @@ class ImageV1Api(maxFileSizeGB: Int = 3)(implicit val executor: ExecutionContext
           array
         } catch {
           case NonFatal(e) =>
-            halt(BadRequest(reason = s"An exception occurred: ${e.getMessage}"))
+            halt(BadRequest(body = s"""{"error": "An error occurred: ${e.getMessage}"}"""))
         }
     }
   }

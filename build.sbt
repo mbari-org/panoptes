@@ -14,8 +14,8 @@ lazy val slf4jVersion = "1.7.25"
 
 lazy val buildSettings = Seq(
   organization := "org.mbari.m3",
-  scalaVersion := "2.12.3",
-  crossScalaVersions := Seq("2.12.3")
+  scalaVersion := "2.12.7",
+  crossScalaVersions := Seq("2.12.7")
 )
 
 lazy val consoleSettings = Seq(

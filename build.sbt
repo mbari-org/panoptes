@@ -1,21 +1,21 @@
-lazy val auth0Version = "3.4.0"
-lazy val codecVersion = "1.11"
-lazy val configVersion = "1.3.3"
-lazy val jettyVersion = "9.4.12.v20180830"
-lazy val json4sJacksonVersion = "3.6.1"
+lazy val auth0Version = "3.8.1"
+lazy val codecVersion = "1.13"
+lazy val configVersion = "1.3.4"
+lazy val jettyVersion = "9.4.19.v20190610"
+lazy val json4sJacksonVersion = "3.6.7"
 lazy val jtaVersion = "1.1"
 lazy val junitVersion = "4.12"
 lazy val logbackVersion = "1.2.3"
 lazy val rxjavaVersion = "2.2.2"
-lazy val scalatestVersion = "3.0.5"
-lazy val scalatraVersion = "2.6.3"
+lazy val scalatestVersion = "3.0.8"
+lazy val scalatraVersion = "2.6.5"
 lazy val servletVersion = "3.1.0"
-lazy val slf4jVersion = "1.7.25"
+lazy val slf4jVersion = "1.7.27"
 
 lazy val buildSettings = Seq(
   organization := "org.mbari.m3",
-  scalaVersion := "2.12.7",
-  crossScalaVersions := Seq("2.12.7"),
+  scalaVersion := "2.12.9",
+  crossScalaVersions := Seq("2.12.9"),
   organizationName := "Monterey Bay Aquarium Research Institute",
   startYear := Some(2017),
   licenses += ("Apache-2.0", new URL("https://www.apache.org/licenses/LICENSE-2.0.txt"))
@@ -87,7 +87,7 @@ lazy val `panoptes` = (project in file("."))
   .settings(appSettings)
   .settings(
     name := "panoptes",
-    version := "0.1.0",
+    version := "0.2.0",
     fork := true,
     libraryDependencies ++= Seq(
       "com.auth0" % "java-jwt" % auth0Version,
@@ -108,8 +108,7 @@ lazy val `panoptes` = (project in file("."))
         _.excludeAll(
           ExclusionRule("org.slf4j", "slf4j-jdk14"),
           ExclusionRule("org.slf4j", "slf4j-log4j12"),
-          ExclusionRule("javax.servlet", "servlet-api"))),
-    mainClass in assembly := Some("JettyMain")
+          ExclusionRule("javax.servlet", "servlet-api")))
   )
   .settings( // config sbt-pack
     packMain := apps,

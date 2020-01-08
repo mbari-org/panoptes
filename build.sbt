@@ -1,7 +1,7 @@
-lazy val auth0Version = "3.8.2"
-lazy val codecVersion = "1.13"
-lazy val configVersion = "1.3.4"
-lazy val jettyVersion = "9.4.20.v20190813"
+lazy val auth0Version = "3.9.0"
+lazy val codecVersion = "1.14"
+lazy val configVersion = "1.4.0"
+lazy val jettyVersion = "9.4.25.v20191220"
 lazy val json4sJacksonVersion = "3.6.7"
 lazy val jtaVersion = "1.1"
 lazy val junitVersion = "4.12"
@@ -10,7 +10,7 @@ lazy val rxjavaVersion = "2.2.12"
 lazy val scalatestVersion = "3.0.8"
 lazy val scalatraVersion = "2.6.5"
 lazy val servletVersion = "3.1.0"
-lazy val slf4jVersion = "1.7.28"
+lazy val slf4jVersion = "1.7.30"
 
 lazy val buildSettings = Seq(
   organization := "org.mbari.m3",

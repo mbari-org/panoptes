@@ -1,21 +1,21 @@
-lazy val auth0Version = "3.7.0"
-lazy val codecVersion = "1.12"
-lazy val configVersion = "1.3.3"
-lazy val jettyVersion = "9.4.15.v20190215"
-lazy val json4sJacksonVersion = "3.6.5"
+lazy val auth0Version = "3.10.1"
+lazy val codecVersion = "1.14"
+lazy val configVersion = "1.4.0"
+lazy val jettyVersion = "9.4.27.v20200227"
+lazy val json4sJacksonVersion = "3.6.7"
 lazy val jtaVersion = "1.1"
-lazy val junitVersion = "4.12"
+lazy val junitVersion = "4.13"
 lazy val logbackVersion = "1.2.3"
 lazy val rxjavaVersion = "2.2.7"
-lazy val scalatestVersion = "3.0.6"
-lazy val scalatraVersion = "2.6.5"
-lazy val servletVersion = "3.1.0"
-lazy val slf4jVersion = "1.7.26"
+lazy val scalatestVersion = "3.1.1"
+lazy val scalatraVersion = "2.7.0"
+lazy val servletVersion = "4.0.1"
+lazy val slf4jVersion = "1.7.30"
 
 lazy val buildSettings = Seq(
   organization := "org.mbari.m3",
-  scalaVersion := "2.12.8",
-  crossScalaVersions := Seq("2.12.8"),
+  scalaVersion := "2.13.1",
+  crossScalaVersions := Seq("2.13.1"),
   organizationName := "Monterey Bay Aquarium Research Institute",
   startYear := Some(2017),
   licenses += ("Apache-2.0", new URL("https://www.apache.org/licenses/LICENSE-2.0.txt"))
@@ -48,7 +48,7 @@ lazy val dependencySettings = Seq(
   resolvers ++= Seq(
     Resolver.mavenLocal,
     Resolver.sonatypeRepo("releases"),
-    "hohonuuli-bintray" at "http://dl.bintray.com/hohonuuli/maven")
+    "hohonuuli-bintray" at "https://dl.bintray.com/hohonuuli/maven")
 )
 
 lazy val optionSettings = Seq(
@@ -58,14 +58,10 @@ lazy val optionSettings = Seq(
     "UTF-8", // yes, this is 2 args
     "-feature",
     "-language:existentials",
-    "-language:higherKinds",
     "-language:implicitConversions",
     "-unchecked",
-    //"-Xfatal-warnings",
     "-Xlint",
-    "-Yno-adapted-args",
-    "-Ywarn-value-discard",
-    "-Xfuture"
+    "-Ywarn-value-discard"
   ),
   javacOptions ++= Seq("-target", "1.8", "-source", "1.8"),
   updateOptions := updateOptions.value.withCachedResolution(true)

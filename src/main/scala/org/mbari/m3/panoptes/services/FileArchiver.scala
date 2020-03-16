@@ -16,12 +16,12 @@
 
 package org.mbari.m3.panoptes.services
 
+import java.io.InputStream
 import java.net.URI
 
 import com.typesafe.config.ConfigFactory
 
 import scala.concurrent.{ExecutionContext, Future}
-import scala.tools.nsc.interpreter.InputStream
 
 /**
  * Archives files to some data store. Provides 2 methods.

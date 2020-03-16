@@ -16,17 +16,17 @@
 
 package org.mbari.m3.panoptes.services
 
+import java.io.InputStream
 import java.net.{URI, URL}
-import java.nio.file.{DirectoryStream, Files, Path, Paths}
+import java.nio.file.{Files, Path, Paths}
 
-import com.typesafe.config.{Config, ConfigFactory}
+import com.typesafe.config.ConfigFactory
 import org.mbari.m3.panoptes.util.IOUtilities
 import org.slf4j.LoggerFactory
 
-import scala.tools.nsc.interpreter.InputStream
 import scala.util.{Failure, Success, Try}
 import scala.util.control.NonFatal
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 /**
  * @author Brian Schlining

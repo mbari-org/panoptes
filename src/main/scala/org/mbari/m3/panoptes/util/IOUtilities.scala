@@ -16,11 +16,10 @@
 
 package org.mbari.m3.panoptes.util
 
-import java.io.OutputStream
+import java.io.{InputStream, OutputStream}
 import java.nio.ByteBuffer
 import java.nio.channels.Channels
 
-import scala.tools.nsc.interpreter.InputStream
 
 /**
  * @author Brian Schlining

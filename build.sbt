@@ -6,7 +6,7 @@ lazy val json4sJacksonVersion = "3.6.7"
 lazy val jtaVersion = "1.1"
 lazy val junitVersion = "4.13"
 lazy val logbackVersion = "1.2.3"
-lazy val rxjavaVersion = "2.2.7"
+lazy val rxjavaVersion = "3.0.1"
 lazy val scalatestVersion = "3.1.1"
 lazy val scalatraVersion = "2.7.0"
 lazy val servletVersion = "4.0.1"
@@ -83,12 +83,12 @@ lazy val `panoptes` = (project in file("."))
   .settings(appSettings)
   .settings(
     name := "panoptes",
-    version := "0.1.1",
+    version := "0.2.2",
     fork := true,
     libraryDependencies ++= Seq(
       "com.auth0" % "java-jwt" % auth0Version,
       "commons-codec" % "commons-codec" % codecVersion,
-      "io.reactivex.rxjava2" % "rxjava" % rxjavaVersion,
+      "io.reactivex.rxjava3" % "rxjava" % rxjavaVersion,
       "javax.servlet" % "javax.servlet-api" % servletVersion,
       "javax.transaction" % "jta" % jtaVersion,
       "org.json4s" %% "json4s-jackson" % json4sJacksonVersion,
@@ -104,8 +104,7 @@ lazy val `panoptes` = (project in file("."))
         _.excludeAll(
           ExclusionRule("org.slf4j", "slf4j-jdk14"),
           ExclusionRule("org.slf4j", "slf4j-log4j12"),
-          ExclusionRule("javax.servlet", "servlet-api"))),
-    mainClass in assembly := Some("JettyMain")
+          ExclusionRule("javax.servlet", "servlet-api")))
   )
   .settings( // config sbt-pack
     packMain := apps,

@@ -87,7 +87,7 @@ lazy val `panoptes` = (project in file("."))
   .settings(appSettings)
   .settings(
     name := "panoptes",
-    version := "0.2.2",
+    version := "0.2.3",
     fork := true,
     libraryDependencies ++= Seq(
       "com.auth0"            % "java-jwt"            % auth0Version,

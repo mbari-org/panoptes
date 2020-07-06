@@ -27,15 +27,17 @@ import scala.concurrent.ExecutionContext
 import scala.util.control.NonFatal
 
 /**
- * @author Brian Schlining
- * @since 2017-08-29T11:44:00
- */
+  * @author Brian Schlining
+  * @since 2017-08-29T11:44:00
+  */
 class ImageV1Api(maxFileSizeGB: Int = 3)(implicit val executor: ExecutionContext) extends ApiStack {
 
   val fileArchiver = FileArchiver.Instance
 
   // Configure Max upload size
-  configureMultipartHandling(MultipartConfig(maxFileSize = Some(maxFileSizeGB * 1024 * 1024)))
+  configureMultipartHandling(
+    MultipartConfig(maxFileSize = Some(maxFileSizeGB * 1024 * 1024 * 1024))
+  )
 
   post("/:camera_id/:deployment_id/:name") {
     validateRequest()
@@ -44,7 +46,9 @@ class ImageV1Api(maxFileSizeGB: Int = 3)(implicit val executor: ExecutionContext
       .getOrElse(halt(BadRequest(body = """{"error": "A camera_id path parameter is required"}""")))
     val deploymentId = params
       .get("deployment_id")
-      .getOrElse(halt(BadRequest(body = """{"error": "A deployment_id path parameter is required"}""")))
+      .getOrElse(
+        halt(BadRequest(body = """{"error": "A deployment_id path parameter is required"}"""))
+      )
     val name = params
       .get("name")
       .getOrElse(halt(BadRequest(body = """{"error": "A name path parameter is required"}""")))
@@ -70,7 +74,9 @@ class ImageV1Api(maxFileSizeGB: Int = 3)(implicit val executor: ExecutionContext
       .getOrElse(halt(BadRequest(body = """{"error": "A camera_id path parameter is required"}""")))
     val deploymentId = params
       .get("deployment_id")
-      .getOrElse(halt(BadRequest(body = """{"error": "A deployment_id path parameter is required"}""")))
+      .getOrElse(
+        halt(BadRequest(body = """{"error": "A deployment_id path parameter is required"}"""))
+      )
     val name = params
       .get("name")
       .getOrElse(halt(BadRequest(body = """{"error": "A name path parameter is required"}""")))
@@ -98,7 +104,9 @@ class ImageV1Api(maxFileSizeGB: Int = 3)(implicit val executor: ExecutionContext
       .getOrElse(halt(BadRequest(body = """{"error": "A camera_id path parameter is required"}""")))
     val deploymentId = params
       .get("deployment_id")
-      .getOrElse(halt(BadRequest(body = """{"error": "A deployment_id path parameter is required"}""")))
+      .getOrElse(
+        halt(BadRequest(body = """{"error": "A deployment_id path parameter is required"}"""))
+      )
     val name = params
       .get("name")
       .getOrElse(halt(BadRequest(body = """{"error": "A name path parameter is required"}""")))
@@ -108,14 +116,15 @@ class ImageV1Api(maxFileSizeGB: Int = 3)(implicit val executor: ExecutionContext
         val uri = f.uri(cameraId, deploymentId, name)
         try {
           val url = uri.toURL
-          val in = url.openStream()
+          val in  = url.openStream()
           val out = new ByteArrayOutputStream()
           IOUtilities.copy(in, out)
           in.close()
           val array = out.toByteArray
           out.close()
           array
-        } catch {
+        }
+        catch {
           case NonFatal(e) =>
             halt(BadRequest(body = s"""{"error": "An error occurred: ${e.getMessage}"}"""))
         }

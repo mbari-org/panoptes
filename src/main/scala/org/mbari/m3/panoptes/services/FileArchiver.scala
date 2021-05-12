@@ -18,8 +18,8 @@ package org.mbari.m3.panoptes.services
 
 import java.io.InputStream
 import java.net.URI
-
 import com.typesafe.config.ConfigFactory
+import org.slf4j.LoggerFactory
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -67,6 +67,7 @@ object FileArchiver {
   val Instance: FileArchiver = {
     val serviceName = config.getString("panoptes.file.archiver")
     val clazz = Class.forName(serviceName)
+    LoggerFactory.getLogger(getClass).info(s"Using '$serviceName' for file archiving")
     clazz
       .getDeclaredConstructor()
       .newInstance()

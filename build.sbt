@@ -1,15 +1,15 @@
-lazy val auth0Version         = "3.10.3"
-lazy val codecVersion         = "1.14"
-lazy val configVersion        = "1.4.0"
-lazy val jettyVersion         = "9.4.30.v20200611"
-lazy val json4sJacksonVersion = "3.6.9"
+lazy val auth0Version         = "3.16.0"
+lazy val codecVersion         = "1.15"
+lazy val configVersion        = "1.4.1"
+lazy val jettyVersion         = "9.4.40.v20210413"
+lazy val json4sJacksonVersion = "3.6.11"
 lazy val jansiVersion         = "1.18"
 lazy val jtaVersion           = "1.1"
-lazy val junitVersion         = "4.13"
+lazy val junitVersion         = "4.13.2"
 lazy val logbackVersion       = "1.3.0-alpha4"
-lazy val rxjavaVersion        = "3.0.4"
-lazy val scalatestVersion     = "3.2.0"
-lazy val scalatraVersion      = "2.7.0"
+lazy val rxjavaVersion        = "3.0.12"
+lazy val scalatestVersion     = "3.2.8"
+lazy val scalatraVersion      = "2.7.1"
 lazy val servletVersion       = "4.0.1"
 lazy val slf4jVersion         = "1.8.0-beta4"
 
@@ -17,8 +17,8 @@ Global / onChangedBuildSource := ReloadOnSourceChanges
 
 lazy val buildSettings = Seq(
   organization := "org.mbari.m3",
-  scalaVersion := "2.13.3",
-  crossScalaVersions := Seq("2.13.3"),
+  scalaVersion := "2.13.5",
+  crossScalaVersions := Seq("2.13.5"),
   organizationName := "Monterey Bay Aquarium Research Institute",
   startYear := Some(2017),
   licenses += ("Apache-2.0", new URL("https://www.apache.org/licenses/LICENSE-2.0.txt"))
@@ -87,7 +87,7 @@ lazy val `panoptes` = (project in file("."))
   .settings(appSettings)
   .settings(
     name := "panoptes",
-    version := "0.2.3",
+    version := "0.2.4",
     fork := true,
     libraryDependencies ++= Seq(
       "com.auth0"            % "java-jwt"            % auth0Version,

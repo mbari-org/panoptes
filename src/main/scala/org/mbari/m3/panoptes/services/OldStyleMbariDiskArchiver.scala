@@ -34,7 +34,9 @@ class OldStyleMbariDiskArchiver extends MbariDiskArchiver {
    */
   override protected def relativeFilePath(cameraId: String, deploymentId: String): String = {
     val parts = deploymentId.split("\\s+")
-    val diveNumber = Try(parts.last.toInt.toString).getOrElse(deploymentId)
+    val diveNumber = Try(parts.last.toInt)
+      .map(s => f"$s%04d")
+      .getOrElse(deploymentId)
     s"$cameraId/images/$diveNumber"
   }
 

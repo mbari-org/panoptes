@@ -49,7 +49,7 @@ object JettyMain {
     connector setIdleTimeout conf.connectorIdleTimeout
     server addConnector connector
 
-    val webapp = conf.webapp
+    // val webapp = conf.webapp
     val webApp = new WebAppContext
     webApp setContextPath conf.contextPath
     webApp setResourceBase conf.webapp

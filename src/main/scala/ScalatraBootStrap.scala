@@ -22,6 +22,7 @@ import org.scalatra.LifeCycle
 import org.slf4j.LoggerFactory
 
 import scala.concurrent.ExecutionContext
+import org.mbari.m3.panoptes.api.HealthApi
 
 /**
  *
@@ -46,6 +47,7 @@ class ScalatraBootstrap extends LifeCycle {
 
     context.mount(imageV1Api, "/v1/images")
     context.mount(authApi, "/v1/auth")
+    context.mount(new HealthApi, "/v1/health")
 
   }
 

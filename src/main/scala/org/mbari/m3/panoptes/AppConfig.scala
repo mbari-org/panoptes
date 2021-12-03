@@ -14,21 +14,14 @@
  * limitations under the License.
  */
 
-package org.mbari.m3.panoptes.api
+package org.mbari.m3.panoptes
 
-import org.scalatra.ScalatraServlet
-import org.mbari.m3.panoptes.model.HealthStatus
-import org.mbari.m3.panoptes.model.CirceCodecs
-import org.mbari.m3.panoptes.model.CirceCodecs._
+import scala.util.Try
 
-class HealthApi extends ScalatraServlet {
+object AppConfig {
 
-  before() {
-    contentType = "application/json"
-  }
+  val Name: String = "panoptes"
 
-  get("/") {
-    CirceCodecs.print(HealthStatus.default)
-  }
+  val Version: String = Try(getClass.getPackage.getImplementationVersion).getOrElse("0.0.0-SNAPSHOT")
 
 }

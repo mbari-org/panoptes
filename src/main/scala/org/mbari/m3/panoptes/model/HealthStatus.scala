@@ -16,13 +16,16 @@
 
 package org.mbari.m3.panoptes.model
 
+import org.mbari.m3.panoptes.AppConfig
+
 final case class HealthStatus(
     jdkVersion: String,
     availableProcessors: Int,
     freeMemory: Long,
     maxMemory: Long,
     totalMemory: Long,
-    application: String = "panoptes"
+    application: String = AppConfig.Name,
+    version: String = AppConfig.Version
 )
 
 object HealthStatus {

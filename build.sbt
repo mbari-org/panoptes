@@ -1,15 +1,16 @@
 lazy val auth0Version         = "3.18.2"
+lazy val circeVersion         = "0.14.1"
 lazy val codecVersion         = "1.15"
 lazy val configVersion        = "1.4.1"
-lazy val jettyVersion         = "9.4.43.v20210629"
-lazy val json4sJacksonVersion = "3.6.11"
-lazy val jansiVersion         = "1.18"
+lazy val jettyVersion         = "9.4.44.v20210927"
+lazy val json4sJacksonVersion = "4.0.3"
+lazy val jansiVersion         = "2.4.0"
 lazy val jtaVersion           = "1.1"
 lazy val junitVersion         = "4.13.2"
 lazy val logbackVersion       = "1.3.0-alpha10"
-lazy val rxjavaVersion        = "3.1.1"
+lazy val rxjavaVersion        = "3.1.3"
 lazy val scalatestVersion     = "3.2.10"
-lazy val scalatraVersion      = "2.7.1"
+lazy val scalatraVersion      = "2.8.2"
 lazy val servletVersion       = "4.0.1"
 lazy val slf4jVersion         = "2.0.0-alpha5"
 
@@ -17,24 +18,13 @@ Global / onChangedBuildSource := ReloadOnSourceChanges
 
 lazy val buildSettings = Seq(
   organization := "org.mbari.m3",
-  scalaVersion := "2.13.6",
-  crossScalaVersions := Seq("2.13.6"),
+  scalaVersion := "2.13.7",
+  crossScalaVersions := Seq("2.13.7"),
   organizationName := "Monterey Bay Aquarium Research Institute",
   startYear := Some(2017),
   licenses += ("Apache-2.0", new URL("https://www.apache.org/licenses/LICENSE-2.0.txt"))
 )
 
-lazy val consoleSettings = Seq(
-  shellPrompt := { state =>
-    val user = System.getProperty("user.name")
-    user + "@" + Project.extract(state).currentRef.project + ":sbt> "
-  },
-  initialCommands in console :=
-    """
-      |import java.time.Instant
-      |import java.util.UUID
-    """.stripMargin
-)
 
 lazy val dependencySettings = Seq(
   libraryDependencies ++= {
@@ -67,7 +57,7 @@ lazy val optionSettings = Seq(
     "-Xlint",
     "-Ywarn-value-discard"
   ),
-  javacOptions ++= Seq("-target", "1.8", "-source", "1.8"),
+  javacOptions ++= Seq("-target", "17", "-source", "17"),
   updateOptions := updateOptions.value.withCachedResolution(true)
 )
 
@@ -75,26 +65,39 @@ lazy val optionSettings = Seq(
 addCommandAlias("cleanall", ";clean;clean-files")
 
 // --- Modules
-lazy val appSettings = buildSettings ++ consoleSettings ++ dependencySettings ++
+lazy val appSettings = buildSettings ++ dependencySettings ++
   optionSettings
 
 lazy val apps = Map("jetty-main" -> "JettyMain") // for sbt-pack
 
 lazy val `panoptes` = (project in file("."))
-  .enablePlugins(JettyPlugin)
-  .enablePlugins(AutomateHeaderPlugin)
-  .enablePlugins(PackPlugin)
+  .enablePlugins(
+    AutomateHeaderPlugin, 
+    GitBranchPrompt, 
+    GitVersioning,
+    JettyPlugin, 
+    PackPlugin
+  )
   .settings(appSettings)
   .settings(
     name := "panoptes",
-    version := "0.2.5",
     fork := true,
+    // Set version based on git tag. I use "0.0.0" format (no leading "v", which is the default)
+    // Use `show gitCurrentTags` in sbt to update/see the tags
+    git.gitTagToVersionNumber := { tag: String =>
+      if(tag matches "[0-9]+\\..*") Some(tag)
+      else None
+    },
+    git.useGitDescribe := true,
     libraryDependencies ++= Seq(
       "com.auth0"            % "java-jwt"            % auth0Version,
       "commons-codec"        % "commons-codec"       % codecVersion,
       "io.reactivex.rxjava3" % "rxjava"              % rxjavaVersion,
       "javax.servlet"        % "javax.servlet-api"   % servletVersion,
       "javax.transaction"    % "jta"                 % jtaVersion,
+      "io.circe"             %% "circe-core"         % circeVersion,
+      "io.circe"             %% "circe-generic"      % circeVersion,
+      "io.circe"             %% "circe-parser"       % circeVersion,
       "org.fusesource.jansi" % "jansi"               % jansiVersion % "runtime",
       "org.json4s"           %% "json4s-jackson"     % json4sJacksonVersion,
       "org.eclipse.jetty"    % "jetty-server"        % jettyVersion % "compile;test",

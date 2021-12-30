@@ -1,7 +1,10 @@
 .bloop/
+.bsp/
+.history/
 .idea/
 .metals/
 .vscode/
 *.orig
 project/metals.sbt
+project/project/
 target/

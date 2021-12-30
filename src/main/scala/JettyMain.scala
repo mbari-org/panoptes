@@ -18,6 +18,7 @@ import com.typesafe.config.ConfigFactory
 import org.eclipse.jetty.server._
 import org.eclipse.jetty.webapp.WebAppContext
 import org.scalatra.servlet.ScalatraListener
+import org.slf4j.LoggerFactory
 
 object JettyMain {
 
@@ -32,8 +33,23 @@ object JettyMain {
 
   def main(args: Array[String]) = {
     System.setProperty("user.timezone", "UTC")
+    val s = """
+      |  _______  _______  _        _______  _______ _________ _______  _______ 
+      | (  ____ )(  ___  )( (    /|(  ___  )(  ____ )\__   __/(  ____ \(  ____ \
+      | | (    )|| (   ) ||  \  ( || (   ) || (    )|   ) (   | (    \/| (    \/
+      | | (____)|| (___) ||   \ | || |   | || (____)|   | |   | (__    | (_____ 
+      | |  _____)|  ___  || (\ \) || |   | ||  _____)   | |   |  __)   (_____  )
+      | | (      | (   ) || | \   || |   | || (         | |   | (            ) |
+      | | )      | )   ( || )  \  || (___) || )         | |   | (____/\/\____) |
+      | |/       |/     \||/    )_)(_______)|/          )_(   (_______/\_______)""".stripMargin
+    println(s)
+                                                                        
+
     val server: Server = new Server
-    println("starting jetty")
+    LoggerFactory
+      .getLogger(getClass)
+      .atInfo
+      .log("Starting Jetty server on port {}", conf.port)
 
     server setStopTimeout conf.stopTimeout
     //server setDumpAfterStart true

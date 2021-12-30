@@ -22,6 +22,8 @@ import org.scalatra.LifeCycle
 import org.slf4j.LoggerFactory
 
 import scala.concurrent.ExecutionContext
+import org.mbari.m3.panoptes.api.HealthApi
+import org.mbari.m3.panoptes.AppConfig
 
 /**
  *
@@ -31,11 +33,13 @@ import scala.concurrent.ExecutionContext
  */
 class ScalatraBootstrap extends LifeCycle {
 
-  private[this] val log = LoggerFactory.getLogger(getClass)
-
   override def init(context: ServletContext): Unit = {
 
-    log.info("STARTING UP NOW")
+    LoggerFactory.getLogger(getClass).info(s"Mounting ${AppConfig.Name} Servlets")
+    // Optional because * is the default
+    context.setInitParameter("org.scalatra.cors.allowedOrigins", "*")
+    // Disables cookies, but required because browsers will not allow passing credentials to wildcard domains
+    context.setInitParameter("org.scalatra.cors.allowCredentials", "false")
 
     implicit val ec: ExecutionContext = ExecutionContext.global
     //implicit val executionContext = ExecutionContext.fromExecutor(Executors.newFixedThreadPool(Runtime.getRuntime.availableProcessors()))
@@ -46,6 +50,7 @@ class ScalatraBootstrap extends LifeCycle {
 
     context.mount(imageV1Api, "/v1/images")
     context.mount(authApi, "/v1/auth")
+    context.mount(new HealthApi, "/v1/health")
 
   }
 

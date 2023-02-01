@@ -15,10 +15,11 @@
  */
 
 import com.typesafe.config.ConfigFactory
-import org.eclipse.jetty.server._
+import org.eclipse.jetty.server.*
 import org.eclipse.jetty.webapp.WebAppContext
 import org.scalatra.servlet.ScalatraListener
 import org.slf4j.LoggerFactory
+import scala.jdk.CollectionConverters.*
 
 object JettyMain {
 
@@ -69,7 +70,7 @@ object JettyMain {
     val webApp = new WebAppContext
     webApp setContextPath conf.contextPath
     webApp setResourceBase conf.webapp
-    webApp setEventListeners Array(new ScalatraListener)
+    webApp setEventListeners Array(new ScalatraListener).toList.asJava
 
     server setHandler webApp
 

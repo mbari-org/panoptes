@@ -14,25 +14,27 @@
  * limitations under the License.
  */
 
-import collection.mutable.Stack
-import org.scalatest.*
+package org.mbari.m3.panoptes.auth
+
 import org.scalatest.flatspec.AnyFlatSpec
-import org.scalatest.matchers.should.Matchers
+import org.scalatest.matchers.must.Matchers
+import org.json4s.jackson.JsonMethods._
+import org.json4s.jackson.Serialization._
+import org.mbari.m3.panoptes.converters.json4s
+import org.json4s.Formats
 
-class ExampleSpec extends AnyFlatSpec with Matchers {
+class AuthorizationSpec extends AnyFlatSpec with Matchers {
 
-  "A Stack" should "pop values in last-in-first-out order" in {
-    val stack = new Stack[Int]
-    stack.push(1)
-    stack.push(2)
-    stack.pop() should be(2)
-    stack.pop() should be(1)
+  given formats: Formats = json4s.CustomFormats
+
+  "Authorization" should "serialize to snake-case JSON" in {
+    val auth = new Authorization("BEARER", "12345")
+    val s = write(auth)
+    s must include ("tokenType")
+    s must include ("accessToken")
+    val t = write(auth.toSnakeCase)
+    t must include ("token_type")
+    t must include ("access_token")
   }
-
-  it should "throw NoSuchElementException if an empty stack is popped" in {
-    val emptyStack = new Stack[Int]
-    a[NoSuchElementException] should be thrownBy {
-      emptyStack.pop()
-    }
-  }
+  
 }

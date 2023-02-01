@@ -24,14 +24,16 @@ import scala.concurrent.ExecutionContext
  */
 class ImageV1ApiSpec extends ApiTestStack {
 
-  implicit val ec = ExecutionContext.global
+  implicit val ec: ExecutionContext = ExecutionContext.global
 
-  private[this] val api = new ImageV1Api()
+  private[this] val api: ImageV1Api = new ImageV1Api()
 
   addServlet(api, "/v1/images")
 
   "ImageV1Api" should "POST" in {
-    post("v1/images/Ventana/9999/01_02_03_04.png") {}
+    post("/v1/images/Ventana/9999/01_02_03_04.png") {
+      status should be(200)
+    }
   }
 
 }

@@ -16,12 +16,17 @@
 
 package org.mbari.m3.panoptes.api
 
-import org.scalatest.given
-import org.scalatest.BeforeAndAfterAll
-import org.scalatra.test.scalatest.ScalatraFlatSpec
+import scala.concurrent.ExecutionContext
 
-/**
- * @author Brian Schlining
- * @since 2017-08-30T10:31:00
- */
-class ApiTestStack extends ScalatraFlatSpec with BeforeAndAfterAll {}
+class HealthApiSpec extends ApiTestStack {
+  given ec: ExecutionContext = ExecutionContext.global
+  private val api: HealthApi = new HealthApi()
+
+  addServlet(api, "/v1/health")
+
+  "HealthApi" should "GET" in {
+    get("/v1/health") {
+      status should be(200)
+    }
+  }
+}

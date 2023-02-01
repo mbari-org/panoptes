@@ -47,23 +47,23 @@ abstract class ApiStack
 
   protected[this] implicit lazy val jsonFormats: Formats = json4s.CustomFormats
 
-  protected implicit val stringToUUID = new TypeConverter[String, UUID] {
+  protected implicit val stringToUUID: TypeConverter[String, UUID] = new TypeConverter[String, UUID] {
     override def apply(s: String): Option[UUID] = Try(UUID.fromString(s)).toOption
   }
 
-  protected implicit val stringToInstant = new TypeConverter[String, Instant] {
+  protected implicit val stringToInstant: TypeConverter[String, Instant] = new TypeConverter[String, Instant] {
     override def apply(s: String): Option[Instant] = Try(Instant.parse(s)).toOption
   }
 
-  protected implicit val stringToDuration = new TypeConverter[String, Duration] {
+  protected implicit val stringToDuration: TypeConverter[String, Duration] = new TypeConverter[String, Duration] {
     override def apply(s: String): Option[Duration] = Try(Duration.ofMillis(s.toLong)).toOption
   }
 
-  protected implicit val stringToURI = new TypeConverter[String, URI] {
+  protected implicit val stringToURI: TypeConverter[String, URI] = new TypeConverter[String, URI] {
     override def apply(s: String): Option[URI] = Try(URI.create(s)).toOption
   }
 
-  protected implicit val stringToURL = new TypeConverter[String, URL] {
+  protected implicit val stringToURL: TypeConverter[String, URL] = new TypeConverter[String, URL] {
     override def apply(s: String): Option[URL] = Try(new URL(s)).toOption
   }
 

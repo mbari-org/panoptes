@@ -43,7 +43,7 @@ object JettyMain {
       | | )      | )   ( || )  \  || (___) || )         | |   | (____/\/\____) |
       | |/       |/     \||/    )_)(_______)|/          )_(   (_______/\_______)""".stripMargin
     println(s)
-                                                                        
+
 
     val server: Server = new Server
     LoggerFactory
@@ -69,7 +69,8 @@ object JettyMain {
     val webApp = new WebAppContext
     webApp setContextPath conf.contextPath
     webApp setResourceBase conf.webapp
-    webApp setEventListeners Array(new ScalatraListener)
+    // webApp setEventListeners Array(new ScalatraListener)
+    webApp.setEventListeners(java.util.List.of(new ScalatraListener))
 
     server setHandler webApp
 

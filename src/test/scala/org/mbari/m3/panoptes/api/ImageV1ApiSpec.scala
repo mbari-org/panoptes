@@ -18,6 +18,7 @@ package org.mbari.m3.panoptes.api
 
 import scala.concurrent.ExecutionContext
 import org.mbari.m3.panoptes.util.IOUtilities
+import scala.concurrent.ExecutionContextExecutor
 
 /**
  * @author Brian Schlining
@@ -26,7 +27,7 @@ import org.mbari.m3.panoptes.util.IOUtilities
 class ImageV1ApiSpec extends ApiTestStack {
 
 
-  implicit val ec = ExecutionContext.global
+  implicit val ec: ExecutionContextExecutor = ExecutionContext.global
 
   private[this] val api = new ImageV1Api()
 

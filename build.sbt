@@ -1,16 +1,16 @@
 lazy val auth0Version         = "3.18.2"
-lazy val circeVersion         = "0.14.1"
+lazy val circeVersion         = "0.14.6"
 lazy val codecVersion         = "1.15"
-lazy val configVersion        = "1.4.1"
+lazy val configVersion        = "1.4.2"
 lazy val jettyVersion         = "9.4.44.v20210927"
-lazy val json4sJacksonVersion = "4.0.3"
+lazy val json4sJacksonVersion = "4.0.6"
 lazy val jansiVersion         = "2.4.0"
 lazy val jtaVersion           = "1.1"
 lazy val junitVersion         = "4.13.2"
 lazy val logbackVersion       = "1.3.0-alpha10"
 lazy val rxjavaVersion        = "3.1.3"
 lazy val scalatestVersion     = "3.2.10"
-lazy val scalatraVersion      = "2.8.2"
+lazy val scalatraVersion      = "3.0.0-M5-javax"
 lazy val servletVersion       = "4.0.1"
 lazy val slf4jVersion         = "2.0.0-alpha5"
 
@@ -18,8 +18,8 @@ Global / onChangedBuildSource := ReloadOnSourceChanges
 
 lazy val buildSettings = Seq(
   organization := "org.mbari.m3",
-  scalaVersion := "2.13.7",
-  crossScalaVersions := Seq("2.13.7"),
+  scalaVersion := "3.3.1",
+  crossScalaVersions := Seq("3.3.1"),
   organizationName := "Monterey Bay Aquarium Research Institute",
   startYear := Some(2017),
   licenses += ("Apache-2.0", new URL("https://www.apache.org/licenses/LICENSE-2.0.txt"))
@@ -75,7 +75,6 @@ lazy val `panoptes` = (project in file("."))
     AutomateHeaderPlugin, 
     GitBranchPrompt, 
     GitVersioning,
-    JettyPlugin, 
     PackPlugin
   )
   .settings(appSettings)
@@ -106,7 +105,6 @@ lazy val `panoptes` = (project in file("."))
       "org.scalatest"        %% "scalatest"          % scalatestVersion % "test",
       "org.scalatra"         %% "scalatra"           % scalatraVersion,
       "org.scalatra"         %% "scalatra-json"      % scalatraVersion,
-      "org.scalatra"         %% "scalatra-scalate"   % scalatraVersion,
       "org.scalatra"         %% "scalatra-scalatest" % scalatraVersion
     ).map(
       _.excludeAll(

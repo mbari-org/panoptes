@@ -64,7 +64,7 @@ abstract class ApiStack
   }
 
   protected implicit val stringToURL: TypeConverter[String, URL] = new TypeConverter[String, URL] {
-    override def apply(s: String): Option[URL] = Try(new URL(s)).toOption
+    override def apply(s: String): Option[URL] = Try(URI.create(s).toURL()).toOption
   }
 
   before() {

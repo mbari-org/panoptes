@@ -21,6 +21,7 @@ import java.net.URL
 import org.json4s._
 
 import scala.util.Try
+import java.net.URI
 
 /**
  * @author Brian Schlining
@@ -29,7 +30,7 @@ import scala.util.Try
 case object URLSerializer
     extends CustomSerializer[URL](format =>
       ({
-        case JString(s) => Try(new URL(s)).getOrElse(null)
+        case JString(s) => Try(URI.create(s).toURL).getOrElse(null)
         case JNull      => null
       }, {
         case x: URL => JString(x.toExternalForm)

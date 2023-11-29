@@ -1,18 +1,18 @@
-lazy val auth0Version         = "3.18.2"
+lazy val auth0Version         = "4.4.0"
 lazy val circeVersion         = "0.14.6"
-lazy val codecVersion         = "1.15"
-lazy val configVersion        = "1.4.2"
-lazy val jettyVersion         = "9.4.44.v20210927"
+lazy val codecVersion         = "1.16.0"
+lazy val configVersion        = "1.4.3"
+lazy val jettyVersion         = "11.0.18"
 lazy val json4sJacksonVersion = "4.0.6"
-lazy val jansiVersion         = "2.4.0"
+lazy val jansiVersion         = "2.4.1"
 lazy val jtaVersion           = "1.1"
 lazy val junitVersion         = "4.13.2"
-lazy val logbackVersion       = "1.3.0-alpha10"
-lazy val rxjavaVersion        = "3.1.3"
-lazy val scalatestVersion     = "3.2.10"
-lazy val scalatraVersion      = "3.0.0-M5-javax"
+lazy val logbackVersion       = "1.4.13"
+lazy val rxjavaVersion        = "3.1.8"
+lazy val scalatestVersion     = "3.2.17"
+lazy val scalatraVersion      = "3.0.0"
 lazy val servletVersion       = "4.0.1"
-lazy val slf4jVersion         = "2.0.0-alpha5"
+lazy val slf4jVersion         = "2.0.9"
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
@@ -91,21 +91,21 @@ lazy val `panoptes` = (project in file("."))
     libraryDependencies ++= Seq(
       "com.auth0"            % "java-jwt"            % auth0Version,
       "commons-codec"        % "commons-codec"       % codecVersion,
-      "io.reactivex.rxjava3" % "rxjava"              % rxjavaVersion,
-      "javax.servlet"        % "javax.servlet-api"   % servletVersion,
-      "javax.transaction"    % "jta"                 % jtaVersion,
       "io.circe"             %% "circe-core"         % circeVersion,
       "io.circe"             %% "circe-generic"      % circeVersion,
       "io.circe"             %% "circe-parser"       % circeVersion,
-      "org.fusesource.jansi" % "jansi"               % jansiVersion % "runtime",
-      "org.json4s"           %% "json4s-jackson"     % json4sJacksonVersion,
+      "io.reactivex.rxjava3" % "rxjava"              % rxjavaVersion,
+      "javax.servlet"        % "javax.servlet-api"   % servletVersion,
+      "javax.transaction"    % "jta"                 % jtaVersion,
       "org.eclipse.jetty"    % "jetty-server"        % jettyVersion % "compile;test",
       "org.eclipse.jetty"    % "jetty-servlets"      % jettyVersion % "compile;test",
       "org.eclipse.jetty"    % "jetty-webapp"        % jettyVersion % "compile;test",
+      "org.fusesource.jansi" % "jansi"               % jansiVersion % "runtime",
+      "org.json4s"           %% "json4s-jackson"     % json4sJacksonVersion,
       "org.scalatest"        %% "scalatest"          % scalatestVersion % "test",
-      "org.scalatra"         %% "scalatra"           % scalatraVersion,
-      "org.scalatra"         %% "scalatra-json"      % scalatraVersion,
-      "org.scalatra"         %% "scalatra-scalatest" % scalatraVersion
+      "org.scalatra"         %% "scalatra-jakarta"           % scalatraVersion,
+      "org.scalatra"         %% "scalatra-json-jakarta"      % scalatraVersion,
+      "org.scalatra"         %% "scalatra-scalatest-jakarta" % scalatraVersion
     ).map(
       _.excludeAll(
         ExclusionRule("org.slf4j", "slf4j-jdk14"),

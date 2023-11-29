@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import javax.servlet.ServletContext
+import jakarta.servlet.ServletContext
 
 import com.typesafe.config.ConfigFactory
 import org.mbari.m3.panoptes.api.{AuthorizationV1Api, ImageV1Api}

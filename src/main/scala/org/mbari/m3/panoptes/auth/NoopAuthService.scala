@@ -16,7 +16,7 @@
 
 package org.mbari.m3.panoptes.auth
 
-import javax.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletRequest
 
 /**
  * Service that does not validation. All requests are valid. Useful for testing

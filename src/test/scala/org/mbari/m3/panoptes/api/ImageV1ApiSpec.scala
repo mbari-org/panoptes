@@ -17,6 +17,7 @@
 package org.mbari.m3.panoptes.api
 
 import scala.concurrent.ExecutionContext
+import org.mbari.m3.panoptes.util.IOUtilities
 
 /**
  * @author Brian Schlining
@@ -24,14 +25,23 @@ import scala.concurrent.ExecutionContext
  */
 class ImageV1ApiSpec extends ApiTestStack {
 
+
   implicit val ec = ExecutionContext.global
 
   private[this] val api = new ImageV1Api()
 
   addServlet(api, "/v1/images")
 
+  private val image = getClass.getResource("/images/01_02_03_04.jpg")
+
   "ImageV1Api" should "POST" in {
-    post("v1/images/Ventana/9999/01_02_03_04.png") {}
+
+    val jpgBytes = IOUtilities.readAllBytes(image)
+    post("/v1/images/Ventana/9999/01_02_03_04.png", body = jpgBytes) {
+      // status should be(200)
+      // TOOD need to add image to multipart request
+      
+    }
   }
 
 }

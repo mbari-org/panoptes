@@ -75,7 +75,6 @@ lazy val `panoptes` = (project in file("."))
     AutomateHeaderPlugin, 
     GitBranchPrompt, 
     GitVersioning,
-    JettyPlugin, 
     PackPlugin
   )
   .settings(appSettings)

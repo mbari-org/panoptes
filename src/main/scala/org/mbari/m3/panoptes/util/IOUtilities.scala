@@ -19,6 +19,8 @@ package org.mbari.m3.panoptes.util
 import java.io.{InputStream, OutputStream}
 import java.nio.ByteBuffer
 import java.nio.channels.Channels
+import scala.util.Using
+import java.net.URL
 
 
 /**
@@ -44,6 +46,18 @@ object IOUtilities {
     source.close()
     target.close()
 
+  }
+
+  def readAllBytes(in: InputStream): Array[Byte] = {
+    val out = new java.io.ByteArrayOutputStream()
+    copy(in, out)
+    out.toByteArray
+  }
+
+  def readAllBytes(url: URL): Array[Byte] = {
+    Using.resource(url.openStream()) { in =>
+      readAllBytes(in)
+    }
   }
 
 }

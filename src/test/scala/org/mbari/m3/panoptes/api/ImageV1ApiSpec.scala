@@ -17,6 +17,10 @@
 package org.mbari.m3.panoptes.api
 
 import scala.concurrent.ExecutionContext
+import org.mbari.m3.panoptes.util.IOUtilities
+import scala.concurrent.ExecutionContextExecutor
+import org.scalatra.test.Uploadable
+import org.scalatra.test.BytesPart
 
 /**
  * @author Brian Schlining
@@ -24,14 +28,31 @@ import scala.concurrent.ExecutionContext
  */
 class ImageV1ApiSpec extends ApiTestStack {
 
-  implicit val ec = ExecutionContext.global
+
+  implicit val ec: ExecutionContextExecutor = ExecutionContext.global
 
   private[this] val api = new ImageV1Api()
 
   addServlet(api, "/v1/images")
 
+  private val image = getClass.getResource("/images/01_02_03_04.jpg")
+
   "ImageV1Api" should "POST" in {
-    post("v1/images/Ventana/9999/01_02_03_04.png") {}
+
+    val jpgBytes = IOUtilities.readAllBytes(image)
+    submitMultipart(
+      "POST",
+      "/v1/images/Ventana/9999/01_02_03_04.png", 
+      files = Map("file" -> BytesPart("01_02_03_04.png", jpgBytes))
+    ) {
+      status should be(200)
+      println(body)
+      body should include("01_02_03_04.png")
+      // TOOD need to add image to multipart request
+
+    }
+
   }
 
 }
+

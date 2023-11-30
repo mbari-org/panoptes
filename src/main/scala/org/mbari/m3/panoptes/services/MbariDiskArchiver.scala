@@ -90,7 +90,7 @@ class MbariDiskArchiver extends DiskArchiver {
   override def uri(cameraId: String, deploymentId: String, name: String): URI = {
     val uriPath = s"$archiveUrl${relativeFilePath(cameraId, deploymentId)}/$name"
     val uriEscaped = uriPath.replace(" ", "%20")
-    URI.create(uriEscaped)
+    new URL(uriEscaped).toURI
   }
 
   override def filepath(cameraId: String, deploymentId: String, name: String): Path = {

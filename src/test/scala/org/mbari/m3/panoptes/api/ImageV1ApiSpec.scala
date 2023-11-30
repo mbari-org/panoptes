@@ -19,6 +19,8 @@ package org.mbari.m3.panoptes.api
 import scala.concurrent.ExecutionContext
 import org.mbari.m3.panoptes.util.IOUtilities
 import scala.concurrent.ExecutionContextExecutor
+import org.scalatra.test.Uploadable
+import org.scalatra.test.BytesPart
 
 /**
  * @author Brian Schlining
@@ -38,11 +40,18 @@ class ImageV1ApiSpec extends ApiTestStack {
   "ImageV1Api" should "POST" in {
 
     val jpgBytes = IOUtilities.readAllBytes(image)
-    post("/v1/images/Ventana/9999/01_02_03_04.png", body = jpgBytes) {
-      // status should be(200)
+    submitMultipart(
+      "POST",
+      "/v1/images/Ventana/9999/01_02_03_04.png", 
+      files = Map("file" -> BytesPart("01_02_03_04.png", jpgBytes))
+    ) {
+      status should be(200)
+      println(body)
+      body should include("01_02_03_04.png")
       // TOOD need to add image to multipart request
-      
+
     }
+
   }
 
 }

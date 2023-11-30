@@ -33,6 +33,7 @@ import scala.util.control.NonFatal
 class ImageV1Api(maxFileSizeGB: Int = 3)(implicit val executor: ExecutionContext) extends ApiStack {
 
   val fileArchiver = FileArchiver.Instance
+  private val log = org.slf4j.LoggerFactory.getLogger(getClass)
 
   // Configure Max upload size
   configureMultipartHandling(
@@ -61,6 +62,15 @@ class ImageV1Api(maxFileSizeGB: Int = 3)(implicit val executor: ExecutionContext
             case None    => halt(BadRequest(body = """{"error": "Unable to complete your request"}"""))
             case Some(u) => ImageParams(u.toString, cameraId, deploymentId, name)
           })
+        f.onComplete(t => 
+          inputStream.close()
+          t match {
+            case scala.util.Success(v) => log.atDebug().log(s"Archived image and returned: $v")
+            case scala.util.Failure(e) =>
+              log.atError().setCause(e).log(s"Failed to archive image: ${e.getMessage}")
+              halt(BadRequest(body = s"""{"error": "An error occurred: ${e.getMessage}"}"""))
+          }
+        )
         f.onComplete(_ => inputStream.close())
         f
       case None =>

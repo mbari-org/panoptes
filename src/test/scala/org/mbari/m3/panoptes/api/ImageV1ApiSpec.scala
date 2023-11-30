@@ -49,7 +49,7 @@ class ImageV1ApiSpec extends ApiTestStack {
     var token: String = ""
     post("/v1/auth", headers = Map("Authorization" -> s"APIKEY $apikey")) {
       status should be(200)
-      println(body)
+      // println(body)
       val r = ".*\\\"(.*)\\\".*".r
       r.findAllMatchIn(body).foreach(m => token = m.group(1))
     }
@@ -64,7 +64,7 @@ class ImageV1ApiSpec extends ApiTestStack {
       files = Map("file" -> BytesPart("01_02_03_04.png", jpgBytes))
     ) {
       status should be(200)
-      println(body)
+      // println(body)
       body should include("01_02_03_04.png")
       // TOOD need to add image to multipart request
 

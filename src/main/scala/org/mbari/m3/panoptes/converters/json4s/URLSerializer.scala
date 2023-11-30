@@ -21,6 +21,7 @@ import java.net.URL
 import org.json4s._
 
 import scala.util.Try
+import java.net.URI
 
 /**
  * @author Brian Schlining

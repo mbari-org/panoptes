@@ -21,7 +21,7 @@ import java.lang.{Long => JLong}
 import java.time.Instant
 import java.time.temporal.{ChronoUnit, TemporalUnit}
 import java.util.Date
-import javax.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletRequest
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
@@ -112,7 +112,7 @@ class BasicJwtService extends AuthorizationService {
           .sign(algorithm)
 
       })
-      .map(Authorization("Bearer", _).toSnakeCase) // Write snake case
+      .map(AuthorizationSC("Bearer", _))
       .map(a => write(a))
       // .map(s => compact(render(parse(s)))) // Write snake case
   }

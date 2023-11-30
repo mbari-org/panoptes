@@ -18,6 +18,7 @@
   <logger name="org.eclipse.jetty" level="WARN" />
   <logger name="org.fusesource.scalate" level="WARN" />
   <logger name="org.fusesource.scalate" level="WARN" />
+  <logger name="org.apache.hc" level="WARN" />
 
   <root level="${LOGBACK_LEVEL}">
     <appender-ref ref="CONSOLE" />

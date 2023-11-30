@@ -17,6 +17,12 @@
 package org.mbari.m3.panoptes.api
 
 import scala.concurrent.ExecutionContext
+import org.mbari.m3.panoptes.util.IOUtilities
+import scala.concurrent.ExecutionContextExecutor
+import org.scalatra.test.Uploadable
+import org.scalatra.test.BytesPart
+import com.typesafe.config.Config
+import com.typesafe.config.ConfigFactory
 
 /**
  * @author Brian Schlining
@@ -24,16 +30,47 @@ import scala.concurrent.ExecutionContext
  */
 class ImageV1ApiSpec extends ApiTestStack {
 
-  implicit val ec: ExecutionContext = ExecutionContext.global
 
-  private[this] val api: ImageV1Api = new ImageV1Api()
+  implicit val ec: ExecutionContextExecutor = ExecutionContext.global
+
+  private[this] val api = new ImageV1Api()
+  private[this] val auth = new AuthorizationV1Api()
 
   addServlet(api, "/v1/images")
+  addServlet(auth, "/v1/auth")
+
+  private val image = getClass.getResource("/images/01_02_03_04.jpg")
 
   "ImageV1Api" should "POST" in {
-    post("/v1/images/Ventana/9999/01_02_03_04.png") {
+
+    // First get a token
+    val config = ConfigFactory.load()
+    val apikey = config.getString("basicjwt.client.secret")
+    var token: String = ""
+    post("/v1/auth", headers = Map("Authorization" -> s"APIKEY $apikey")) {
       status should be(200)
+      // println(body)
+      val r = ".*\\\"(.*)\\\".*".r
+      r.findAllMatchIn(body).foreach(m => token = m.group(1))
     }
+
+    token should not be ("")
+
+    val jpgBytes = IOUtilities.readAllBytes(image)
+    submitMultipart(
+      "POST",
+      "/v1/images/Ventana/9999/01_02_03_04.png", 
+      headers = Map("Authorization" -> s"Bearer $token"),
+      files = Map("file" -> BytesPart("01_02_03_04.png", jpgBytes))
+    ) {
+      status should be(200)
+      // println(body)
+      body should include("01_02_03_04.png")
+      // TOOD need to add image to multipart request
+
+    }
+
   }
 
 }
+

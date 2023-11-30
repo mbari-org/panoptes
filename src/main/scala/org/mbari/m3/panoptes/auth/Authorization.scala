@@ -24,4 +24,10 @@ case class Authorization(tokenType: String, accessToken: String):
   
     def toSnakeCase: AuthorizationSnakeCase = AuthorizationSnakeCase(tokenType, accessToken)
 
+/**
+  * Snake case version of Authorization
+  *
+  * @param token_type
+  * @param access_token
+  */
 case class AuthorizationSnakeCase(token_type: String, access_token: String)

@@ -1,24 +1,25 @@
-lazy val auth0Version         = "3.19.4"
-lazy val circeVersion         = "0.14.3"
-lazy val codecVersion         = "1.15"
-lazy val configVersion        = "1.4.2"
-lazy val jettyVersion         = "9.4.50.v20221201"
+lazy val auth0Version         = "4.4.0"
+lazy val circeVersion         = "0.14.6"
+lazy val codecVersion         = "1.16.0"
+lazy val configVersion        = "1.4.3"
+lazy val jettyVersion         = "11.0.18"
 lazy val json4sJacksonVersion = "4.0.6"
-lazy val jansiVersion         = "2.4.0"
+lazy val jansiVersion         = "2.4.1"
 lazy val jtaVersion           = "1.1"
 lazy val junitVersion         = "4.13.2"
-lazy val logbackVersion       = "1.4.5"
-lazy val rxjavaVersion        = "3.1.6"
-lazy val scalatestVersion     = "3.2.15"
-lazy val scalatraVersion      = "3.0.0-M3"
+lazy val logbackVersion       = "1.4.13"
+lazy val rxjavaVersion        = "3.1.8"
+lazy val scalatestVersion     = "3.2.17"
+lazy val scalatraVersion      = "3.0.0"
 lazy val servletVersion       = "4.0.1"
-lazy val slf4jVersion         = "2.0.6"
+lazy val slf4jVersion         = "2.0.9"
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
 lazy val buildSettings = Seq(
   organization := "org.mbari.m3",
-  scalaVersion := "3.2.2",
+  scalaVersion := "3.3.1",
+  crossScalaVersions := Seq("3.3.1"),
   organizationName := "Monterey Bay Aquarium Research Institute",
   startYear := Some(2017),
   licenses += ("Apache-2.0", new URL("https://www.apache.org/licenses/LICENSE-2.0.txt"))
@@ -32,6 +33,7 @@ lazy val dependencySettings = Seq(
       "ch.qos.logback" % "logback-core"     % logbackVersion,
       "com.typesafe"   % "config"           % configVersion,
       "junit"          % "junit"            % junitVersion % "test",
+      "org.scalatest"  %% "scalatest"       % scalatestVersion % "test",
       "org.slf4j"      % "log4j-over-slf4j" % slf4jVersion,
       "org.slf4j"      % "slf4j-api"        % slf4jVersion
     )
@@ -72,7 +74,6 @@ lazy val `panoptes` = (project in file("."))
     AutomateHeaderPlugin, 
     GitBranchPrompt, 
     GitVersioning,
-    JettyPlugin, 
     PackPlugin
   )
   .settings(appSettings)
@@ -89,22 +90,21 @@ lazy val `panoptes` = (project in file("."))
     libraryDependencies ++= Seq(
       "com.auth0"            % "java-jwt"            % auth0Version,
       "commons-codec"        % "commons-codec"       % codecVersion,
-      "io.reactivex.rxjava3" % "rxjava"              % rxjavaVersion,
-      "javax.servlet"        % "javax.servlet-api"   % servletVersion,
-      "javax.transaction"    % "jta"                 % jtaVersion,
       "io.circe"             %% "circe-core"         % circeVersion,
       "io.circe"             %% "circe-generic"      % circeVersion,
       "io.circe"             %% "circe-parser"       % circeVersion,
-      "org.fusesource.jansi" % "jansi"               % jansiVersion % "runtime",
-      ("org.json4s"           %% "json4s-jackson"     % json4sJacksonVersion).cross(CrossVersion.for3Use2_13),
+      "io.reactivex.rxjava3" % "rxjava"              % rxjavaVersion,
+      "javax.servlet"        % "javax.servlet-api"   % servletVersion,
+      "javax.transaction"    % "jta"                 % jtaVersion,
       "org.eclipse.jetty"    % "jetty-server"        % jettyVersion % "compile;test",
       "org.eclipse.jetty"    % "jetty-servlets"      % jettyVersion % "compile;test",
       "org.eclipse.jetty"    % "jetty-webapp"        % jettyVersion % "compile;test",
-      ("org.scalatest"        %% "scalatest"          % scalatestVersion).cross(CrossVersion.for3Use2_13) % "test",
-      ("org.scalatra"         %% "scalatra"           % scalatraVersion).cross(CrossVersion.for3Use2_13),
-      ("org.scalatra"         %% "scalatra-json"      % scalatraVersion).cross(CrossVersion.for3Use2_13),
-      // "org.scalatra"         %% "scalatra-scalate"   % scalatraVersion,
-      ("org.scalatra"         %% "scalatra-scalatest" % scalatraVersion).cross(CrossVersion.for3Use2_13)
+      "org.fusesource.jansi" % "jansi"               % jansiVersion % "runtime",
+      "org.json4s"           %% "json4s-jackson"     % json4sJacksonVersion,
+      "org.scalatest"        %% "scalatest"          % scalatestVersion % "test",
+      "org.scalatra"         %% "scalatra-jakarta"           % scalatraVersion,
+      "org.scalatra"         %% "scalatra-json-jakarta"      % scalatraVersion,
+      "org.scalatra"         %% "scalatra-scalatest-jakarta" % scalatraVersion
     ).map(
       _.excludeAll(
         ExclusionRule("org.slf4j", "slf4j-jdk14"),

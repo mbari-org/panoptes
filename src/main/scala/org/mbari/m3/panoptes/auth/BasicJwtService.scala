@@ -112,7 +112,7 @@ class BasicJwtService extends AuthorizationService {
           .sign(algorithm)
 
       })
-      .map(AuthorizationSC("Bearer", _))
+      .map(AuthorizationSnakeCase("Bearer", _))
       .map(a => write(a))
       // .map(s => compact(render(parse(s)))) // Write snake case
   }

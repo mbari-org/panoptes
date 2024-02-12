@@ -22,7 +22,10 @@ object AppConfig {
 
   val Name: String = "panoptes"
 
-  val Version: String = Try(getClass.getPackage.getImplementationVersion).getOrElse("0.0.0-SNAPSHOT")
+  val Version: String = {
+    val v = Try(getClass.getPackage.getImplementationVersion).getOrElse("0.0.0-SNAPSHOT")
+    if (v == null) "0.0.0-SNAPSHOT" else v
+  }
 
   val Description: String = "Image Archiver"
 

@@ -16,6 +16,7 @@
 
 package org.mbari.m3.panoptes.api
 
+import org.scalatest.given
 import org.scalatest.BeforeAndAfterAll
 import org.scalatra.test.scalatest.ScalatraFlatSpec
 

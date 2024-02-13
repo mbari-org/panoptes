@@ -71,7 +71,7 @@ class ImageV1Api(maxFileSizeGB: Int = 3)(implicit val executor: ExecutionContext
               halt(BadRequest(body = s"""{"error": "An error occurred: ${e.getMessage}"}"""))
           }
         )
-        f.onComplete(_ => inputStream.close())
+        // f.onComplete(_ => inputStream.close())
         f
       case None =>
         halt(BadRequest(body = """{"error": "No file was attached"}"""))

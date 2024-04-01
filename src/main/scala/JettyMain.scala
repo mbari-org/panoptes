@@ -19,6 +19,7 @@ import org.eclipse.jetty.server._
 import org.eclipse.jetty.webapp.WebAppContext
 import org.scalatra.servlet.ScalatraListener
 import org.slf4j.LoggerFactory
+import org.mbari.m3.panoptes.AppConfig
 
 object JettyMain {
 
@@ -41,7 +42,8 @@ object JettyMain {
       | |  _____)|  ___  || (\ \) || |   | ||  _____)   | |   |  __)   (_____  )
       | | (      | (   ) || | \   || |   | || (         | |   | (            ) |
       | | )      | )   ( || )  \  || (___) || )         | |   | (____/\/\____) |
-      | |/       |/     \||/    )_)(_______)|/          )_(   (_______/\_______)""".stripMargin
+      | |/       |/     \||/    )_)(_______)|/          )_(   (_______/\_______)""".stripMargin + s"  v${AppConfig.Version}"
+
     println(s)
 
 

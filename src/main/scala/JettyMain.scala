@@ -70,6 +70,7 @@ object JettyMain {
     // val webapp = conf.webapp
     val webApp = new WebAppContext
     webApp setContextPath conf.contextPath
+    webApp.setResourceBase(conf.webapp)
     // webApp setResourceBase conf.webapp
     // webApp setEventListeners Array(new ScalatraListener)
     webApp.setEventListeners(java.util.List.of(new ScalatraListener))

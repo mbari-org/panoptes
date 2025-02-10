@@ -62,7 +62,7 @@ trait FileArchiver {
 
 object FileArchiver {
 
-  private[this] val config = ConfigFactory.load()
+  private val config = ConfigFactory.load()
 
   val Instance: FileArchiver = {
     val serviceName = config.getString("panoptes.file.archiver")

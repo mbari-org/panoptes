@@ -40,8 +40,8 @@ case object InstantSerializer
 
 object InstantSerializerSupport {
 
-  private[this] val dtf = DateTimeFormatter.ISO_INSTANT
-  private[this] val log = LoggerFactory.getLogger(getClass)
+  private val dtf = DateTimeFormatter.ISO_INSTANT
+  private val log = LoggerFactory.getLogger(getClass)
 
   def parse(s: String): Option[Instant] =
     try {

@@ -38,7 +38,7 @@ trait ApiAuthenticationSupport { self: ScalatraBase =>
 
 object ApiAuthenticationSupport {
 
-  private[this] val appConfig = ConfigFactory.load()
+  private val appConfig = ConfigFactory.load()
 
   def authorizationService: AuthorizationService = {
     val serviceName = appConfig.getString("authentication.service")

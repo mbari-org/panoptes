@@ -24,7 +24,7 @@ import org.mbari.m3.panoptes.AppConfig
 object JettyMain {
 
   object conf {
-    private[this] val config = ConfigFactory.load()
+    private val config = ConfigFactory.load()
     val port = config.getInt("http.port")
     val stopTimeout = config.getInt("http.stop.timeout")
     val connectorIdleTimeout = config.getInt("http.connector.idle.timeout")
@@ -53,29 +53,29 @@ object JettyMain {
       .atInfo
       .log("Starting Jetty server on port {}", conf.port)
 
-    server setStopTimeout conf.stopTimeout
+    server.setStopTimeout(conf.stopTimeout)
     //server setDumpAfterStart true
-    server setStopAtShutdown true
+    server.setStopAtShutdown(true)
 
     val httpConfig = new HttpConfiguration()
-    httpConfig setSendDateHeader true
-    httpConfig setSendServerVersion false
+    httpConfig.setSendDateHeader(true)
+    httpConfig.setSendServerVersion(false)
 
     val connector = new NetworkTrafficServerConnector(server, new HttpConnectionFactory(httpConfig))
-    connector setPort conf.port
+    connector.setPort(conf.port)
     //connector setSoLingerTime 0
-    connector setIdleTimeout conf.connectorIdleTimeout
-    server addConnector connector
+    connector.setIdleTimeout(conf.connectorIdleTimeout)
+    server.addConnector(connector)
 
     // val webapp = conf.webapp
     val webApp = new WebAppContext
-    webApp setContextPath conf.contextPath
+    webApp.setContextPath(conf.contextPath)
     webApp.setResourceBase(conf.webapp)
     // webApp setResourceBase conf.webapp
     // webApp setEventListeners Array(new ScalatraListener)
     webApp.setEventListeners(java.util.List.of(new ScalatraListener))
 
-    server setHandler webApp
+    server.setHandler(webApp)
 
     server.start()
   }

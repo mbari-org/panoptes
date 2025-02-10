@@ -34,11 +34,11 @@ import scala.jdk.CollectionConverters._
  */
 class MbariDiskArchiver extends DiskArchiver {
 
-  private[this] val log = LoggerFactory.getLogger(getClass)
-  private[this] val config = ConfigFactory.load()
-  protected[this] val archiveRoot: Path =
+  private val log = LoggerFactory.getLogger(getClass)
+  private val config = ConfigFactory.load()
+  protected val archiveRoot: Path =
     Paths.get(config.getString("panoptes.mbari.image.archive.root"))
-  private[this] val archiveUrl: String = {
+  private val archiveUrl: String = {
     val url = config.getString("panoptes.mbari.image.archive.url")
     if (!url.endsWith("/")) url + "/" else url
   }
@@ -90,7 +90,7 @@ class MbariDiskArchiver extends DiskArchiver {
   override def uri(cameraId: String, deploymentId: String, name: String): URI = {
     val uriPath = s"$archiveUrl${relativeFilePath(cameraId, deploymentId)}/$name"
     val uriEscaped = uriPath.replace(" ", "%20")
-    new URL(uriEscaped).toURI
+    URI.create(uriEscaped)
   }
 
   override def filepath(cameraId: String, deploymentId: String, name: String): Path = {

@@ -16,10 +16,11 @@
 
 import com.typesafe.config.ConfigFactory
 import org.eclipse.jetty.server._
-import org.eclipse.jetty.webapp.WebAppContext
+// import org.eclipse.jetty.webapp.WebAppContext
 import org.scalatra.servlet.ScalatraListener
 import org.slf4j.LoggerFactory
 import org.mbari.m3.panoptes.AppConfig
+import org.eclipse.jetty.ee10.webapp.WebAppContext
 
 object JettyMain {
 
@@ -70,7 +71,7 @@ object JettyMain {
     // val webapp = conf.webapp
     val webApp = new WebAppContext
     webApp.setContextPath(conf.contextPath)
-    webApp.setResourceBase(conf.webapp)
+    // webApp.setResourceBase(conf.webapp)
     // webApp setResourceBase conf.webapp
     // webApp setEventListeners Array(new ScalatraListener)
     webApp.setEventListeners(java.util.List.of(new ScalatraListener))

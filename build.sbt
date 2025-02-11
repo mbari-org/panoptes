@@ -2,8 +2,8 @@ lazy val auth0Version         = "4.5.0"
 lazy val circeVersion         = "0.14.10"
 lazy val codecVersion         = "1.18.0"
 lazy val configVersion        = "1.4.3"
-lazy val jettyVersion         = "11.0.24"
-// lazy val jettyVersion         = "12.0.9"
+// lazy val jettyVersion         = "11.0.24"
+lazy val jettyVersion         = "12.0.16"
 lazy val json4sJacksonVersion = "4.0.7"
 lazy val jansiVersion         = "2.4.1"
 lazy val jtaVersion           = "1.1"
@@ -11,7 +11,7 @@ lazy val junitVersion         = "4.13.2"
 lazy val logbackVersion       = "1.5.16"
 lazy val rxjavaVersion        = "3.1.10"
 lazy val scalatestVersion     = "3.2.19"
-lazy val scalatraVersion      = "3.0.0"
+lazy val scalatraVersion      = "3.1.1"
 lazy val servletVersion       = "4.0.1"
 lazy val slf4jVersion         = "2.0.16"
 
@@ -98,9 +98,11 @@ lazy val `panoptes` = (project in file("."))
       "io.reactivex.rxjava3" % "rxjava"              % rxjavaVersion,
       "javax.servlet"        % "javax.servlet-api"   % servletVersion,
       "javax.transaction"    % "jta"                 % jtaVersion,
-      "org.eclipse.jetty"    % "jetty-server"        % jettyVersion % "compile;test",
-      "org.eclipse.jetty"    % "jetty-servlets"      % jettyVersion % "compile;test",
-      "org.eclipse.jetty"    % "jetty-webapp"        % jettyVersion % "compile;test",
+      "org.eclipse.jetty"    % "jetty-server"        % jettyVersion,
+      // "org.eclipse.jetty"    % "jetty-servlets"      % jettyVersion % "compile;test",
+      // "org.eclipse.jetty"    % "jetty-webapp"        % jettyVersion % "compile;test",
+      "org.eclipse.jetty.ee10" % "jetty-ee10-servlets" % jettyVersion,
+      "org.eclipse.jetty.ee10" % "jetty-ee10-webapp" % jettyVersion,
       "org.fusesource.jansi" % "jansi"               % jansiVersion % "runtime",
       "org.json4s"           %% "json4s-jackson"     % json4sJacksonVersion,
       "org.scalatest"        %% "scalatest"          % scalatestVersion % "test",

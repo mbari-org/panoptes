@@ -20,6 +20,10 @@ import org.scalatra.servlet.ScalatraListener
 import org.slf4j.LoggerFactory
 import org.mbari.m3.panoptes.AppConfig
 import org.eclipse.jetty.ee10.webapp.WebAppContext
+import org.eclipse.jetty.util.resource.Resource
+import org.eclipse.jetty.util.resource.PathResource
+import org.eclipse.jetty.server.handler.ResourceHandler
+import org.eclipse.jetty.util.resource.ResourceFactory
 
 object JettyMain {
 
@@ -76,6 +80,11 @@ object JettyMain {
     // -- Configure Servlets
     val webApp = new WebAppContext
     webApp.setContextPath(conf.contextPath)
+
+    // https://jetty.org/docs/jetty/12/programming-guide/server/http.html#handler-use
+    val handler = new ResourceHandler();
+    webApp.setBaseResource(ResourceFactory.of(handler).newResource(conf.webapp))
+    handler.setDirAllowed(false);
     // webApp.setResourceBase(conf.webapp)
     webApp.setEventListeners(java.util.List.of(new ScalatraListener))
     server.setHandler(webApp)

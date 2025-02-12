@@ -99,7 +99,7 @@ lazy val `panoptes` = (project in file("."))
       "javax.servlet"        % "javax.servlet-api"   % servletVersion,
       "javax.transaction"    % "jta"                 % jtaVersion,
       "org.eclipse.jetty"    % "jetty-server"        % jettyVersion,
-      "org.eclipse.jetty"    % "jetty-requestlog"        % jettyVersion,
+      // "org.eclipse.jetty"    % "jetty-requestlog"        % jettyVersion,
       // "org.eclipse.jetty"    % "jetty-servlets"      % jettyVersion % "compile;test",
       // "org.eclipse.jetty"    % "jetty-webapp"        % jettyVersion % "compile;test",
       "org.eclipse.jetty.ee10" % "jetty-ee10-servlets" % jettyVersion,

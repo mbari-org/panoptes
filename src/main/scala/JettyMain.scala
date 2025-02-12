@@ -16,7 +16,6 @@
 
 import com.typesafe.config.ConfigFactory
 import org.eclipse.jetty.server._
-// import org.eclipse.jetty.webapp.WebAppContext
 import org.scalatra.servlet.ScalatraListener
 import org.slf4j.LoggerFactory
 import org.mbari.m3.panoptes.AppConfig
@@ -48,6 +47,7 @@ object JettyMain {
     println(s)
 
 
+    // -- Configure Server
     val server: Server = new Server
     LoggerFactory
       .getLogger(getClass)
@@ -55,29 +55,32 @@ object JettyMain {
       .log("Starting Jetty server on port {}", conf.port)
 
     server.setStopTimeout(conf.stopTimeout)
-    //server setDumpAfterStart true
     server.setStopAtShutdown(true)
 
+    // -- Add Request logging as NCSA extended format
+    val logWriter = new Slf4jRequestLogWriter
+    logWriter.setLoggerName("jetty.request")
+    val requestLog = new CustomRequestLog(logWriter, CustomRequestLog.EXTENDED_NCSA_FORMAT)
+    server.setRequestLog(requestLog)
+
+    // -- Configure HTTP
     val httpConfig = new HttpConfiguration()
     httpConfig.setSendDateHeader(true)
     httpConfig.setSendServerVersion(false)
 
     val connector = new NetworkTrafficServerConnector(server, new HttpConnectionFactory(httpConfig))
     connector.setPort(conf.port)
-    //connector setSoLingerTime 0
     connector.setIdleTimeout(conf.connectorIdleTimeout)
     server.addConnector(connector)
 
-    // val webapp = conf.webapp
+    // -- Configure Servlets
     val webApp = new WebAppContext
     webApp.setContextPath(conf.contextPath)
     // webApp.setResourceBase(conf.webapp)
-    // webApp setResourceBase conf.webapp
-    // webApp setEventListeners Array(new ScalatraListener)
     webApp.setEventListeners(java.util.List.of(new ScalatraListener))
-
     server.setHandler(webApp)
 
+    // -- GO!
     server.start()
   }
 }

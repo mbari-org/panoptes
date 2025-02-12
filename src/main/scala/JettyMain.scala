@@ -84,6 +84,7 @@ object JettyMain {
     // https://jetty.org/docs/jetty/12/programming-guide/server/http.html#handler-use
     val handler = new ResourceHandler();
     webApp.setBaseResource(ResourceFactory.of(handler).newResource(conf.webapp))
+    // webApp.setBaseResource(ResourceFactory.of(handler).newResource("."))
     handler.setDirAllowed(false);
     // webApp.setResourceBase(conf.webapp)
     webApp.setEventListeners(java.util.List.of(new ScalatraListener))

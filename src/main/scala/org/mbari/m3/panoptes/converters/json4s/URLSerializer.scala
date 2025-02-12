@@ -30,7 +30,7 @@ import java.net.URI
 case object URLSerializer
     extends CustomSerializer[URL](format =>
       ({
-        case JString(s) => Try(new URL(s)).getOrElse(null)
+        case JString(s) => Try(URI.create(s).toURL()).getOrElse(null)
         case JNull      => null
       }, {
         case x: URL => JString(x.toExternalForm)

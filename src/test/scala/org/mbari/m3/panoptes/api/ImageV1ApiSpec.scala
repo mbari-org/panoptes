@@ -33,8 +33,8 @@ class ImageV1ApiSpec extends ApiTestStack {
 
   implicit val ec: ExecutionContextExecutor = ExecutionContext.global
 
-  private[this] val api = new ImageV1Api()
-  private[this] val auth = new AuthorizationV1Api()
+  private val api = new ImageV1Api()
+  private val auth = new AuthorizationV1Api()
 
   addServlet(api, "/v1/images")
   addServlet(auth, "/v1/auth")

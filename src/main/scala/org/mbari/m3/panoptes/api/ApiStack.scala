@@ -43,9 +43,9 @@ abstract class ApiStack
     with FutureSupport
     with FileUploadSupport {
 
-  protected[this] val log: Logger = LoggerFactory.getLogger(getClass)
+  protected val log: Logger = LoggerFactory.getLogger(getClass)
 
-  protected[this] implicit lazy val jsonFormats: Formats = json4s.CustomFormats
+  protected implicit lazy val jsonFormats: Formats = json4s.CustomFormats
 
   protected implicit val stringToUUID: TypeConverter[String, UUID] = new TypeConverter[String, UUID] {
     override def apply(s: String): Option[UUID] = Try(UUID.fromString(s)).toOption

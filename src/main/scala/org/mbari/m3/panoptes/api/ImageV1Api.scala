@@ -37,7 +37,7 @@ class ImageV1Api(maxFileSizeGB: Int = 3)(implicit val executor: ExecutionContext
 
   // Configure Max upload size
   configureMultipartHandling(
-    MultipartConfig(maxFileSize = Some(maxFileSizeGB * 1024 * 1024 * 1024))
+    MultipartConfig(maxFileSize = Some(maxFileSizeGB.toLong * 1024L * 1024L * 1024L))
   )
 
   post("/:camera_id/:deployment_id/:name") {
@@ -71,7 +71,7 @@ class ImageV1Api(maxFileSizeGB: Int = 3)(implicit val executor: ExecutionContext
               halt(BadRequest(body = s"""{"error": "An error occurred: ${e.getMessage}"}"""))
           }
         )
-        f.onComplete(_ => inputStream.close())
+        // f.onComplete(_ => inputStream.close())
         f
       case None =>
         halt(BadRequest(body = """{"error": "No file was attached"}"""))

@@ -22,7 +22,7 @@ package org.mbari.m3.panoptes.auth
  */
 case class Authorization(tokenType: String, accessToken: String):
   
-    def toSnakeCase: AuthorizationSnakeCase = AuthorizationSnakeCase(tokenType, accessToken)
+    def toSnakeCase: AuthorizationSC = AuthorizationSC(tokenType, accessToken)
 
 /**
   * Snake case version of Authorization
@@ -30,4 +30,4 @@ case class Authorization(tokenType: String, accessToken: String):
   * @param token_type
   * @param access_token
   */
-case class AuthorizationSnakeCase(token_type: String, access_token: String)
+case class AuthorizationSC(token_type: String, access_token: String)

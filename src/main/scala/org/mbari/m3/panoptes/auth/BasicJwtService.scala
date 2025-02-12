@@ -52,13 +52,13 @@ import scala.util.control.NonFatal
  */
 class BasicJwtService extends AuthorizationService {
 
-  private[this] val config = ConfigFactory.load()
-  private[this] val issuer = config.getString("basicjwt.issuer")
-  private[this] val apiKey = config.getString("basicjwt.client.secret")
-  private[this] val signingSecret = config.getString("basicjwt.signing.secret")
-  private[this] val algorithm = Algorithm.HMAC512(signingSecret)
+  private val config = ConfigFactory.load()
+  private val issuer = config.getString("basicjwt.issuer")
+  private val apiKey = config.getString("basicjwt.client.secret")
+  private val signingSecret = config.getString("basicjwt.signing.secret")
+  private val algorithm = Algorithm.HMAC512(signingSecret)
 
-  private[this] val verifier = JWT
+  private val verifier = JWT
     .require(algorithm)
     .withIssuer(issuer)
     .build()

@@ -13,7 +13,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
   org.label-schema.schema-version="1.0" \
   maintainer="Brian Schlining <brian@mbari.org>"
 
-ENV APP_HOME /opt/panoptes
+ENV APP_HOME=/opt/panoptes
 
 RUN mkdir -p ${APP_HOME}
 

@@ -24,6 +24,7 @@ import org.eclipse.jetty.util.resource.Resource
 import org.eclipse.jetty.util.resource.PathResource
 import org.eclipse.jetty.server.handler.ResourceHandler
 import org.eclipse.jetty.util.resource.ResourceFactory
+import jakarta.servlet.DispatcherType
 
 object JettyMain {
 
@@ -88,6 +89,12 @@ object JettyMain {
     handler.setDirAllowed(false);
     // webApp.setResourceBase(conf.webapp)
     webApp.setEventListeners(java.util.List.of(new ScalatraListener))
+
+
+    // -- Add logging filter
+    val filterHolder = webApp.addFilter(classOf[org.mbari.m3.panoptes.etc.jakarta.LoggingFilter], "/*", java.util.EnumSet.of(DispatcherType.REQUEST))
+    filterHolder.setAsyncSupported(true)
+
     server.setHandler(webApp)
 
     // -- GO!

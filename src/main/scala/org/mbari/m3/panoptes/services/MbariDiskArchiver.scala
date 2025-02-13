@@ -22,11 +22,12 @@ import java.nio.file.{Files, Path, Paths}
 
 import com.typesafe.config.ConfigFactory
 import org.mbari.m3.panoptes.util.IOUtilities
-import org.slf4j.LoggerFactory
 
 import scala.util.{Failure, Success, Try}
 import scala.util.control.NonFatal
 import scala.jdk.CollectionConverters._
+import org.mbari.m3.panoptes.AppConfig
+import org.mbari.m3.panoptes.etc.jdk.Loggers.Extensions.*
 
 /**
  * @author Brian Schlining
@@ -34,14 +35,11 @@ import scala.jdk.CollectionConverters._
  */
 class MbariDiskArchiver extends DiskArchiver {
 
-  private val log = LoggerFactory.getLogger(getClass)
+  private val log = System.getLogger(getClass.getName)
   private val config = ConfigFactory.load()
-  protected val archiveRoot: Path =
-    Paths.get(config.getString("panoptes.mbari.image.archive.root"))
-  private val archiveUrl: String = {
-    val url = config.getString("panoptes.mbari.image.archive.url")
-    if (!url.endsWith("/")) url + "/" else url
-  }
+  protected val archiveRoot: Path = AppConfig.Panoptes.ArchiveRoot
+  private val archiveUrl: URL = AppConfig.Panoptes.ArchiveUrl
+  
 
   protected def relativeFilePath(cameraId: String, deploymentId: String): String =
     s"$cameraId/images/$deploymentId"
@@ -68,7 +66,7 @@ class MbariDiskArchiver extends DiskArchiver {
         Try(Files.createDirectories(parent)) match {
           case Success(v) => true
           case Failure(e) =>
-            log.error(s"Failed to create directory: $parent", e)
+            log.atError.withCause(e).log(s"Failed to create directory: $parent")
             false
         }
       }
@@ -81,7 +79,7 @@ class MbariDiskArchiver extends DiskArchiver {
         Some(uri(cameraId, deploymentId, name))
       } catch {
         case NonFatal(e) =>
-          log.error(s"Failed to write to $path", e)
+          log.atError.withCause(e).log(s"Failed to write to $path")
           None
       }
     } else None

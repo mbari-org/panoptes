@@ -17,6 +17,13 @@
 package org.mbari.m3.panoptes
 
 import scala.util.Try
+import com.typesafe.config.ConfigFactory
+import org.mbari.m3.panoptes.services.DiskArchiver
+import org.mbari.m3.panoptes.etc.jwt.JwtService
+import java.net.URI
+import java.nio.file.Path
+import java.nio.file.Paths
+import java.net.URL
 
 object AppConfig {
 
@@ -28,5 +35,48 @@ object AppConfig {
   }
 
   val Description: String = "Image Archiver"
+
+  val Config = ConfigFactory.load()
+
+  val NumberOfThreads: Int = Runtime.getRuntime().availableProcessors()
+
+  object Http {
+    val Port: Int = Config.getInt("http.port")
+    val StopTimeout: Int = Config.getInt("http.stop.timeout")
+    val ConnectorIdleTimeout: Int = Config.getInt("http.connector.idle.timeout")
+    val Webapp: String = Config.getString("http.webapp")
+    val ContextPath: String = Config.getString("http.context.path")
+  }
+
+  object Authentication {
+    val Service: String = Config.getString("authentication.service")
+  }
+
+  object Basicjwt {
+    val ClientSecret: String = Config.getString("basicjwt.client.secret")
+    val Issuer: String = Config.getString("basicjwt.issuer")
+    val SigningSecret: String = Config.getString("basicjwt.signing.secret")
+    lazy val DefaultJwtService: JwtService = new JwtService(ClientSecret, Issuer, SigningSecret)
+  }
+
+  object Panoptes {
+    val FileArchiver: String = Config.getString("panoptes.file.archiver")
+    val MbariImageArchiveRoot: String = Config.getString("panoptes.mbari.image.archive.root")
+    val MbariImageArchiveUrl: String = Config.getString("panoptes.mbari.image.archive.url")
+    val MaxSizeGb = Config.getInt("panoptes.max.size.gb")
+
+    def newFileArchiver(): DiskArchiver = {
+      val clazz = Class.forName(FileArchiver)
+      clazz.getDeclaredConstructor()
+        .newInstance()
+        .asInstanceOf[DiskArchiver]
+    }
+
+    lazy val ArchiveRoot: Path = Paths.get(MbariImageArchiveRoot)
+    lazy val ArchiveUrl: URL = {
+      val url = if (MbariImageArchiveUrl.endsWith("/")) MbariImageArchiveUrl else MbariImageArchiveUrl + "/"
+      URI.create(url).toURL 
+    }
+  }
 
 }

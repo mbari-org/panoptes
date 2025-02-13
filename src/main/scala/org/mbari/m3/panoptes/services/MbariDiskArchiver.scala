@@ -27,7 +27,7 @@ import scala.util.{Failure, Success, Try}
 import scala.util.control.NonFatal
 import scala.jdk.CollectionConverters._
 import org.mbari.m3.panoptes.AppConfig
-import org.mbari.m3.panoptes.etc.jdk.Loggers.Extensions.*
+import org.mbari.m3.panoptes.etc.jdk.Loggers.Implicits.given
 
 /**
  * @author Brian Schlining

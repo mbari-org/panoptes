@@ -14,25 +14,29 @@
  * limitations under the License.
  */
 
-package org.mbari.m3.panoptes.services
-
-import java.nio.file.Path
+package org.mbari.panoptes.domain
 
 /**
- * A FileArchiver that saves files to a traditional disk.
  * @author
  *   Brian Schlining
- * @since 2017-08-30T11:01:00
+ * @since 2017-08-29T10:48:00
  */
-trait DiskArchiver extends FileArchiver:
+case class Authorization(tokenType: String, accessToken: String):
 
-    /**
-     * Constructs the local file path used to save a file to.
-     * @param cameraId
-     * @param deploymentId
-     * @param name
-     * @return
-     */
-    def filepath(cameraId: String, deploymentId: String, name: String): Path
+    def toSnakeCase: AuthorizationSC = AuthorizationSC(tokenType, accessToken)
 
-    def files(cameraId: String, deploymentId: String): List[Path]
+/**
+ * Snake case version of Authorization
+ *
+ * @param token_type
+ * @param access_token
+ */
+case class AuthorizationSC(token_type: String, access_token: String):
+
+    def toCamelCase: Authorization = Authorization(token_type, access_token)
+
+object Authorization:
+    val TokenTypeBearer: String = "Bearer"
+    val TokenTypeApiKey: String = "APIKey"
+
+    def bearer(accessToken: String): Authorization = Authorization(TokenTypeBearer, accessToken)

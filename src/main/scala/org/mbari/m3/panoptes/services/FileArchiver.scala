@@ -19,13 +19,13 @@ package org.mbari.m3.panoptes.services
 import java.io.{BufferedInputStream, InputStream}
 import java.net.URI
 import com.typesafe.config.ConfigFactory
-import org.mbari.m3.panoptes.AppConfig
+import org.mbari.panoptes.AppConfig
 
 import scala.concurrent.{ExecutionContext, Future}
 import java.lang.System.Logger.Level
 import java.nio.file.{Files, Path}
 import scala.util.{Failure, Success, Using}
-import org.mbari.m3.panoptes.etc.jdk.Loggers.Implicits.given
+import org.mbari.panoptes.etc.jdk.Loggers.Implicits.given
 
 /**
  * Archives files to some data store. Provides 2 methods. One to save a file, another to construct a URI to a file

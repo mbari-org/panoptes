@@ -14,25 +14,11 @@
  * limitations under the License.
  */
 
-package org.mbari.m3.panoptes.services
+package org.mbari.panoptes
 
-import java.nio.file.Path
+class SanitySuite extends munit.FunSuite:
 
-/**
- * A FileArchiver that saves files to a traditional disk.
- * @author
- *   Brian Schlining
- * @since 2017-08-30T11:01:00
- */
-trait DiskArchiver extends FileArchiver:
+    test("is test environment sane") {
+        assertEquals(true, true)
+    }
 
-    /**
-     * Constructs the local file path used to save a file to.
-     * @param cameraId
-     * @param deploymentId
-     * @param name
-     * @return
-     */
-    def filepath(cameraId: String, deploymentId: String, name: String): Path
-
-    def files(cameraId: String, deploymentId: String): List[Path]

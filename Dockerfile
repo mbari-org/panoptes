@@ -1,4 +1,4 @@
-FROM openjdk:17
+FROM eclipse-temurin:21
 
 ARG BUILD_DATE
 ARG VCS_REF
@@ -17,8 +17,8 @@ ENV APP_HOME=/opt/panoptes
 
 RUN mkdir -p ${APP_HOME}
 
-COPY target/pack ${APP_HOME}
+COPY target/universal/stage ${APP_HOME}
 
 EXPOSE 8080
 
-ENTRYPOINT $APP_HOME/bin/jetty-main
+ENTRYPOINT $APP_HOME/bin/panoptes

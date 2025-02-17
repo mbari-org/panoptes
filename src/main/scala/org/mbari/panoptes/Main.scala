@@ -74,7 +74,9 @@ object Main:
         val router            = Router.router(vertx)
 
         // Set the body limit to the max configured size
-        val bodyHandler = BodyHandler.create().setBodyLimit(AppConfig.Panoptes.MaxSizeBytes)
+        val bodyHandler = BodyHandler.create()
+            .setBodyLimit(AppConfig.Panoptes.MaxSizeBytes)
+            .setHandleFileUploads(true)
         router.route().handler(bodyHandler)
 
         val interpreter       = VertxFutureServerInterpreter(serverOptions)

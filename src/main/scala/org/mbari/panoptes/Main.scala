@@ -65,6 +65,8 @@ object Main:
             .options
 
         val vertx             = Vertx.vertx(new VertxOptions().setWorkerPoolSize(AppConfig.NumberOfThreads))
+
+
         val httpServerOptions = new HttpServerOptions()
             .setCompressionSupported(true)
             .setMaxFormBufferedBytes(AppConfig.Panoptes.MaxSizeBytes)
@@ -72,8 +74,8 @@ object Main:
         val router            = Router.router(vertx)
 
         // Set the body limit to the max configured size
-//        val bodyHandler = BodyHandler.create().setBodyLimit(AppConfig.Panoptes.MaxSizeBytes)
-//        router.route().handler(bodyHandler)
+        val bodyHandler = BodyHandler.create().setBodyLimit(AppConfig.Panoptes.MaxSizeBytes)
+        router.route().handler(bodyHandler)
 
         val interpreter       = VertxFutureServerInterpreter(serverOptions)
         Endpoints.attachRoutes(router, interpreter)

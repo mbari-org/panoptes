@@ -65,7 +65,9 @@ object Main:
             .options
 
         val vertx             = Vertx.vertx(new VertxOptions().setWorkerPoolSize(AppConfig.NumberOfThreads))
-        val httpServerOptions = new HttpServerOptions().setCompressionSupported(true)
+        val httpServerOptions = new HttpServerOptions()
+            .setCompressionSupported(true)
+            .setMaxFormBufferedBytes(AppConfig.Panoptes.MaxSizeBytes)
         val server            = vertx.createHttpServer(httpServerOptions)
         val router            = Router.router(vertx)
 

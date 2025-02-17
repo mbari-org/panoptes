@@ -46,7 +46,7 @@ class ImageEndpointsSuite extends EndpointsSuite:
         assertNotNull(imageUrl)
         val imagePath = Paths.get(imageUrl.toURI)
         val request = basicRequest
-            .post(uri"http://test.com/v1/image/camera/deployment/01_02_03_04.jpg")
+            .post(uri"http://test.com/v1/images/camera/deployment/01_02_03_04.jpg")
             .multipartBody(multipartFile("file", imagePath.toFile).contentType("image/jpeg"))
             .auth.bearer(jwt)
         val response = request.send(backendStub).join
@@ -67,7 +67,7 @@ class ImageEndpointsSuite extends EndpointsSuite:
 
     test("resolve") {
         runGet(imageEndpoints.resolveImageLocationImpl,
-            "http://test.com/v1/image/camera/deployment/01_02_03_04.jpg",
+            "http://test.com/v1/images/camera/deployment/01_02_03_04.jpg",
             response => {
                 assertEquals(response.code, StatusCode.Ok)
                 response.body match

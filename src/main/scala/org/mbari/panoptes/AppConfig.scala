@@ -60,8 +60,8 @@ object AppConfig:
         val FileArchiver: String          = Config.getString("panoptes.file.archiver")
         val MbariImageArchiveRoot: String = Config.getString("panoptes.mbari.image.archive.root")
         val MbariImageArchiveUrl: String  = Config.getString("panoptes.mbari.image.archive.url")
-        val MaxSizeGb: Int                = Config.getInt("panoptes.max.size.gb")
-        val MaxSizeBytes: Long = MaxSizeGb * 1024L * 1024L * 1024L
+        val MaxSizeMb: Int                = Config.getInt("panoptes.max.size.mb")
+        val MaxSizeBytes: Int             = MaxSizeMb * 1024 * 1024
 
         def newFileArchiver(): DiskArchiver =
             val clazz = Class.forName(FileArchiver)

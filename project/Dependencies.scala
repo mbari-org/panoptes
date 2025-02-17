@@ -1,7 +1,7 @@
 import sbt.*
 object Dependencies {
 
-    lazy val auth0 = "com.auth0" % "java-jwt" % "4.4.0"
+    lazy val auth0 = "com.auth0" % "java-jwt" % "4.5.0"
 
 
     val circeVersion      = "0.14.10"
@@ -21,14 +21,14 @@ object Dependencies {
     lazy val slf4jJulBridge = "org.slf4j" % "jul-to-slf4j"               % slf4jVersion
     lazy val slf4jSystem    = "org.slf4j" % "slf4j-jdk-platform-logging" % slf4jVersion
 
-    private val tapirVersion = "1.11.13"
+    private val tapirVersion = "1.11.14"
     lazy val tapirCirce      = "com.softwaremill.sttp.tapir" %% "tapir-json-circe"         % tapirVersion
     lazy val tapirPrometheus = "com.softwaremill.sttp.tapir" %% "tapir-prometheus-metrics" % tapirVersion
     lazy val tapirServerStub = "com.softwaremill.sttp.tapir" %% "tapir-sttp-stub-server"   % tapirVersion
     lazy val tapirSwagger    = "com.softwaremill.sttp.tapir" %% "tapir-swagger-ui-bundle"  % tapirVersion
     lazy val tapirVertex     = "com.softwaremill.sttp.tapir" %% "tapir-vertx-server"       % tapirVersion
 
-    lazy val tapirSttpCirce = "com.softwaremill.sttp.client3" %% "circe" % "3.10.2"
+    lazy val tapirSttpCirce = "com.softwaremill.sttp.client3" %% "circe" % "3.10.3"
 
     lazy val typesafeConfig = "com.typesafe"    % "config"     % "1.4.3"
 

@@ -24,6 +24,7 @@ import sttp.tapir.Endpoint
 import sttp.tapir.generic.auto.*
 import sttp.tapir.json.circe.*
 import sttp.tapir.server.ServerEndpoint
+import sttp.tapir.server.model.EndpointExtensions.*
 
 import java.io.File
 import sttp.model.Part
@@ -44,6 +45,7 @@ import sttp.tapir.EndpointIO.annotations.body
 import sttp.tapir.server.ServerEndpoint.Full
 
 import scala.concurrent.Future
+import org.mbari.panoptes.AppConfig
 
 class ImageEndpoints(jwtService: JwtService)(using ec: ExecutionContext) extends Endpoints:
 
@@ -61,6 +63,7 @@ class ImageEndpoints(jwtService: JwtService)(using ec: ExecutionContext) extends
             .name("uploadImage")
             .description("Upload an image")
             .tag("image")
+            .maxRequestBodyLength(AppConfig.Panoptes.MaxSizeBytes)
 
     val uploadImageImpl: ServerEndpoint[Any, Future] =
         uploadImage

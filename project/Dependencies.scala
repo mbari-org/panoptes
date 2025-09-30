@@ -4,7 +4,7 @@ object Dependencies {
     lazy val auth0 = "com.auth0" % "java-jwt" % "4.5.0"
 
 
-    val circeVersion      = "0.14.10"
+    val circeVersion      = "0.14.15"
     lazy val circeCore    = "io.circe" %% "circe-core"    % circeVersion
     lazy val circeGeneric = "io.circe" %% "circe-generic" % circeVersion
     lazy val circeParser  = "io.circe" %% "circe-parser"  % circeVersion
@@ -14,7 +14,7 @@ object Dependencies {
     lazy val jansi       = "org.fusesource.jansi"    % "jansi"                      % "2.4.1"
     lazy val junit       = "junit"                   % "junit"                      % "4.13.2"
     lazy val logback     = "ch.qos.logback"          % "logback-classic"            % "1.5.16"
-    lazy val munit       = "org.scalameta"          %% "munit"                      % "1.1.0"
+    lazy val munit       = "org.scalameta"          %% "munit"                      % "1.2.0"
     lazy val rxjava      = "io.reactivex.rxjava3"    % "rxjava"                     % "3.1.10"
 
     val slf4jVersion = "2.0.16"
@@ -28,7 +28,7 @@ object Dependencies {
     lazy val tapirSwagger    = "com.softwaremill.sttp.tapir" %% "tapir-swagger-ui-bundle"  % tapirVersion
     lazy val tapirVertex     = "com.softwaremill.sttp.tapir" %% "tapir-vertx-server"       % tapirVersion
 
-    lazy val tapirSttpCirce = "com.softwaremill.sttp.client3" %% "circe" % "3.10.3"
+    lazy val tapirSttpCirce = "com.softwaremill.sttp.client3" %% "circe" % "3.11.0"
 
     lazy val typesafeConfig = "com.typesafe"    % "config"     % "1.4.3"
 

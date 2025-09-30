@@ -6,7 +6,7 @@ ThisBuild / javacOptions ++= Seq("-target", "21", "-source", "21")
 ThisBuild / licenses         := Seq("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0"))
 ThisBuild / organization     := "org.mbari"
 ThisBuild / organizationName := "Monterey Bay Aquarium Research Institute"
-ThisBuild / scalaVersion     := "3.6.3"
+ThisBuild / scalaVersion     := "3.7.3"
 ThisBuild / usePipelining    := true
 ThisBuild / scalacOptions ++= Seq(
     "-deprecation",  // Emit warning and location for usages of deprecated APIs.

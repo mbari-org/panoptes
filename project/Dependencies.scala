@@ -11,17 +11,17 @@ object Dependencies {
 
     lazy val commonsCodec = "commons-codec" % "commons-codec" % "1.18.0"
 
-    lazy val jansi       = "org.fusesource.jansi"    % "jansi"                      % "2.4.1"
+    lazy val jansi       = "org.fusesource.jansi"    % "jansi"                      % "2.4.2"
     lazy val junit       = "junit"                   % "junit"                      % "4.13.2"
     lazy val logback     = "ch.qos.logback"          % "logback-classic"            % "1.5.16"
     lazy val munit       = "org.scalameta"          %% "munit"                      % "1.2.0"
     lazy val rxjava      = "io.reactivex.rxjava3"    % "rxjava"                     % "3.1.10"
 
-    val slf4jVersion = "2.0.16"
+    val slf4jVersion = "2.0.17"
     lazy val slf4jJulBridge = "org.slf4j" % "jul-to-slf4j"               % slf4jVersion
     lazy val slf4jSystem    = "org.slf4j" % "slf4j-jdk-platform-logging" % slf4jVersion
 
-    private val tapirVersion = "1.11.14"
+    private val tapirVersion = "1.11.33"
     lazy val tapirCirce      = "com.softwaremill.sttp.tapir" %% "tapir-json-circe"         % tapirVersion
     lazy val tapirPrometheus = "com.softwaremill.sttp.tapir" %% "tapir-prometheus-metrics" % tapirVersion
     lazy val tapirServerStub = "com.softwaremill.sttp.tapir" %% "tapir-sttp-stub-server"   % tapirVersion

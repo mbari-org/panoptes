@@ -3,10 +3,10 @@ import Dependencies._
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
 ThisBuild / javacOptions ++= Seq("-target", "21", "-source", "21")
-ThisBuild / licenses         := Seq("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0"))
+ThisBuild / licenses         := Seq("Apache-2.0" -> uri("http://www.apache.org/licenses/LICENSE-2.0"))
 ThisBuild / organization     := "org.mbari"
 ThisBuild / organizationName := "Monterey Bay Aquarium Research Institute"
-ThisBuild / scalaVersion     := "3.7.3"
+ThisBuild / scalaVersion     := "3.10.0"
 ThisBuild / usePipelining    := true
 ThisBuild / scalacOptions ++= Seq(
     "-deprecation",  // Emit warning and location for usages of deprecated APIs.
@@ -42,11 +42,14 @@ lazy val panoptes = (project in file("."))
     fork := true,
     // Set version based on git tag. I use "0.0.0" format (no leading "v", which is the default)
     // Use `show gitCurrentTags` in sbt to update/see the tags
-    git.gitTagToVersionNumber := { tag: String =>
-      if(tag matches "[0-9]+\\..*") Some(tag)
-      else None
+    git.gitTagToVersionNumber := { (gitTag: String) =>
+        if (gitTag.matches("[0-9]+\\..*")) Some(gitTag)
+        else None
     },
     git.useGitDescribe := true,
+    // sbt 2.x moves `target` under target/out/jvm/scala-<ver>/<project>. Pin the staging
+    // directory to its sbt 1.x location so the Dockerfile's COPY target/universal/stage still works.
+    Universal / com.typesafe.sbt.packager.universal.UniversalPlugin.autoImport.stagingDirectory := baseDirectory.value / "target" / "universal" / "stage",
     bashScriptExtraDefines ++= Seq(
             """addJava "-Dconfig.file=${app_home}/../conf/application.conf"""",
             """addJava "-Dlogback.configurationFile=${app_home}/../conf/logback.xml""""

@@ -27,7 +27,8 @@ import org.mbari.panoptes.etc.sdk.Futures.*
 
 import java.lang.System.Logger.Level
 import java.net.URI
-import java.nio.file.{Files, Paths}
+import java.nio.file.{Files, Paths, StandardCopyOption}
+import scala.util.Using
 
 class ImageEndpointsSuite extends EndpointsSuite:
 
@@ -44,7 +45,11 @@ class ImageEndpointsSuite extends EndpointsSuite:
         val imageUrl = getClass.getResource("/images/01_02_03_04.jpg")
         log.log(Level.DEBUG, imageUrl)
         assertNotNull(imageUrl)
-        val imagePath = Paths.get(imageUrl.toURI)
+        // sbt 2 packages test resources into a jar (exportJars), so the resource URL may be a
+        // jar: URL that Paths.get can't resolve. Copy it to a temp file to get a real Path.
+        val imagePath = Files.createTempFile("panoptes-", ".jpg")
+        imagePath.toFile.deleteOnExit()
+        Using.resource(imageUrl.openStream())(in => Files.copy(in, imagePath, StandardCopyOption.REPLACE_EXISTING))
         val request = basicRequest
             .post(uri"http://test.com/v1/images/camera/deployment/01_02_03_04.jpg")
             .multipartBody(multipartFile("file", imagePath.toFile).contentType("image/jpeg"))
